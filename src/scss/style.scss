@@ -1,12 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
 @import './css/normalize.css';
+
+@import "./bootstrap/scss/functions";
+@import "./bootstrap/scss/_mixins.scss";
+@import "./bootstrap/scss/_variables.scss";
+
 @import './abstracts/variables';
 @import './abstracts/mixins';
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
 
+$theme-colors: (
+  "primary": #1A3755,
+  "danger": #ff4136
+);
 
 
 body {
     font-family: 'Cinzel', serif;
+    background: $xicetic !important;
     overflow-x: hidden;
 }
 
@@ -61,7 +71,7 @@ body {
 .hero-banner {
     height: calc(100vh - 80px);
     width: 100%;
-    background-repeat: no-repeat;
+    
     background-size: cover;
 }
 .hero .hero-message {
@@ -74,8 +84,18 @@ body {
     }
     
 }
+.hdl-logo {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    left: 50%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translateX(-65%)
+
+}
 
 
-@import './css/bootstrap.min.css';
 
-
+@import "./bootstrap/scss/bootstrap";

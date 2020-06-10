@@ -1,76 +1,84 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import { DateRangePicker } from "react-dates";
+import { Redirect } from "react-router-dom";
+import { useRecoilState } from 'recoil';
 import moment from "moment";
 
-import checkRooms from './../api/checkRooms'
+import {checkRooms} from './../api/checkRooms';
+import {roomCheckState, hasCheckedState} from './../atoms/RoomCheckState'
 
-import "./../scss/customDRP.scss";
 
 import herobanner from "./../assets/images/herobanner.jpg";
 import hdlLogo from "./../assets/images/hdl-logo.png";
-import { Redirect } from "react-router-dom";
+import "./../scss/customDRP.scss";
+
 
 function Home() {
-  const [bookDate, setBookDate] = useState({
-    startDate: null,
-    endDate: null,
-    guests: 2
-  });
+    const [bookDate, setBookDate] = useRecoilState(roomCheckState);
+    const [hasChecked, setHasChecked] = useRecoilState(hasCheckedState);
+    const [focus, setFocus] = useState({ focusedInput: null });
 
-  const [focus, setFocus] = useState({ focusedInput: null });
-  const [hasChecked, setHasChecked] = useState(false)
+    let guestsOptions = [
+        <option value="1">1 Adult/s</option>,
+        <option value="2">2 Adult/s</option>,
+        <option value="3">3 Adult/s</option>,
+        <option value="4">4 Adult/s</option>,
+        <option value="5">5 Adult/s</option>,
+        <option value="6">6 Adult/s</option>,
+        <option value="7">7 Adult/s</option>,
+        <option value="8">8 Adult/s</option>,
+    ];
 
-  const handleCheckRooms = async () => {
-        let start = encodeURIComponent(moment(bookDate.startDate).set({h:14}).format())
-        let end = encodeURIComponent(moment(bookDate.endDate).format())
-        
-        let rooms = await checkRooms(start, end, bookDate.guests);
-        console.log(rooms)
-        setHasChecked(true)
-
-  }
-
-  useEffect(()=> {
-    console.log('checked')
-  }, [hasChecked])
+    const handleCheckRooms = async () => {
+            let start = encodeURIComponent(moment(bookDate.startDate).set({h:14}).format())
+            let end = encodeURIComponent(moment(bookDate.endDate).format())
+            
+            let checkedRooms = await checkRooms(start, end, bookDate.guests);
+            
+            setBookDate({...bookDate, checkedRooms})
+            setHasChecked(true)
+    }
 
   return (
-    <>
-    <div className="hero no-gutters">
-        {hasChecked ? <Redirect to='/book' /> : ''}
-        <div className="hero-banner" style={{ backgroundImage: "url(" + herobanner + ")" }}></div>
-        <div className="hero-message">
+    <div className="container-fluid p-0 hero">
+        <div className="row flex-column flex-grow-1 justify-content-center align-items-center hero no-gutters" style={{ backgroundImage: "url(" + herobanner + ")" }}>
+            {hasChecked ? <Redirect to='/book' /> : ''}
             <div className="hdl-logo" style={{ backgroundImage: "url(" + hdlLogo + ")" }}></div>
-            <h2 className="text-center">DEL LUNA</h2>
-            <DateRangePicker
-                startDate={bookDate.startDate}
-                startDateId="startDateId"
-                endDate={bookDate.endDate}
-                endDateId="endDateId"
-                onDatesChange={({ startDate, endDate }) =>
-                setBookDate({...bookDate, startDate, endDate })
-                } // PropTypes.func.isRequired,
-                minimumNights={3}
-                numberOfMonths={1}
-                focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                onFocusChange={(focusedInput) =>
-                setFocus({ focusedInput: focusedInput })
-                } // PropTypes.func.isRequired,
-            />
-            <select onChange={(e)=>setBookDate({...bookDate, guests: e.target.value})} class="custom-select" value={bookDate.guests}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+            <div className="col-auto">
+                <h2 className="text-center hero-message">DEL LUNA</h2>
+            </div>
+            <div className="col-auto mt-3">
+                <div className="d-flex flex-row">
+                    <div className="col-auto">
+                        <DateRangePicker
+                            startDate={bookDate.startDate}
+                            startDateId="startDateId"
+                            endDate={bookDate.endDate}
+                            endDateId="endDateId"
+                            onDatesChange={ ({ startDate, endDate }) => setBookDate({...bookDate, startDate, endDate }) } 
+                            minimumNights={1}
+                            numberOfMonths={1}
+                            focusedInput={focus.focusedInput} 
+                            onFocusChange={ (focusedInput) => setFocus( { focusedInput: focusedInput }) }
+                            startDatePlaceholderText="Check-in"
+                            endDatePlaceholderText="Check-out"
+                            customArrowIcon={<span className="mr-2">|</span>} 
+                        />
+                    </div>
+                </div>
+            </div>
+            <select onChange={(e)=>setBookDate({...bookDate, guests: e.target.value})} class="custom-select w-auto mt-2" value={bookDate.guests}>
+                {guestsOptions.map(option=> {return option})}
             </select>
-            <button type="button" onClick={handleCheckRooms} className="btn btn-primary ml-1">Check</button>
+            <button type="button" onClick={handleCheckRooms} className="btn btn-primary ml-1 mt-2">Check Rooms</button>
+            
         </div>
-    </div>
     <div className="row no-gutters">
         <div className="col-12"></div>
     </div>
-    </>
+    </div>
   );
 }
 

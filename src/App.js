@@ -11,19 +11,17 @@ function App() {
     <Router>
         <div className="App">
             <Navbar />
-            <div className="container-fluid p-0">
-                <Switch>
-                    <Route exact path='/'>
-                        <Home />
-                    </Route> 
-                    <Route exact path='/about'></Route> 
-                    <Route exact path='/rooms'></Route> 
-                    <Route exact path='/book'>
-                        <Book />
-                    </Route> 
-                    <Route exact path='/contact-us'></Route> 
-                </Switch>
-            </div>
+            <Switch>
+                <Route exact path='/'>
+                    <Home />
+                </Route> 
+                <Route exact path='/about'></Route> 
+                <Route exact path='/rooms'></Route> 
+                <Route exact path='/book'>
+                    <Book />
+                </Route> 
+                <Route exact path='/contact-us'></Route> 
+            </Switch>
         </div>
     </Router>
     );

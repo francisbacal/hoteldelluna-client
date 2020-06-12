@@ -13,6 +13,7 @@ $theme-colors: (
   "primary": #1A3755,
   "secondary": #01061A,
   "info": #718BA6,
+  "warning": #D4AF37,
   "danger": #ff4136
 );
 
@@ -169,6 +170,26 @@ body {
     }
 }
 .sticky-top { top: 120px !important; }
+
+.login {
+    min-height: calc(100vh - 80px) !important;
+    margin-top: 80px;
+    background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+    background-attachment: fixed;
+    
+    &__title {
+        color: $font-primary !important;
+        font-weight: 700;
+        margin-top: 1.5rem;
+    }
+
+    &__form {
+        font-family: $font-family-secondary !important;
+        color: $font-primary !important;
+    }
+}
 
 @import "./bootstrap/scss/bootstrap";
 

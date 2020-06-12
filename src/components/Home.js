@@ -31,6 +31,11 @@ function Home() {
         <option value="8" key="8Adult">8 Adult/s</option>,
     ];
 
+    const handleChangeDate = ({startDate, endDate}) => {
+        setBookDate({...bookDate, startDate, endDate})
+
+    }
+
   return (
     <div className="container-fluid p-0 hero">
         <div className="row flex-column flex-grow-1 justify-content-center align-items-center hero no-gutters" style={{ backgroundImage: "url(" + herobanner + ")" }}>
@@ -47,7 +52,7 @@ function Home() {
                             startDateId="startDateId"
                             endDate={bookDate.endDate}
                             endDateId="endDateId"
-                            onDatesChange={ ({ startDate, endDate }) => setBookDate({...bookDate, startDate, endDate }) } 
+                            onDatesChange={ handleChangeDate } 
                             minimumNights={1}
                             numberOfMonths={1}
                             focusedInput={focus.focusedInput} 
@@ -61,7 +66,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <select onChange={(e)=>setBookDate({...bookDate, guests: e.target.value})} class="custom-select w-auto mt-2" value={bookDate.guests}>
+            <select onChange={(e)=>setBookDate({...bookDate, guests: e.target.value})} className="custom-select w-auto mt-2" value={bookDate.guests}>
                 {guestsOptions.map(option=> {return option})}
             </select>
             <button type="button" onClick={()=> setHasChecked(true)} className="btn btn-primary ml-1 mt-2">Check Rooms</button>

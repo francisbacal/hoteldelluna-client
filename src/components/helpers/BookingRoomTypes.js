@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment'
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
@@ -14,9 +14,9 @@ import { useRecoilValueLoadable, useRecoilValue, useRecoilState } from 'recoil';
 const BookingRoomTypes = () => {
     
     const [booking, setBooking] = useRecoilState(bookingState);
-    const roomState = useRecoilValue(roomCheckState);
+    const [bookDate, setBookDate] = useRecoilState(roomCheckState);
     const checkedRooms = useRecoilValueLoadable(checkedRoomsState);
-    const [focus, setFocus] = useState({ focusedInput: null });
+    const [focus, setFocus] = useState({focusedInput: null});
 
     const url = "http://localhost:5000/public/images/";
 
@@ -46,6 +46,7 @@ const BookingRoomTypes = () => {
             ...booking,
             room: e.target.room.value,
             total: currencyPrice,
+            roomType: e.target.roomType.value,
             nextLoading: true,
             bookingRoomDone: true,
             bookingCustomerInfoDone: false
@@ -54,6 +55,7 @@ const BookingRoomTypes = () => {
     }
 
     const handleChangeDate = ({startDate, endDate}) => {
+
         setBooking({
             ...booking,
             bookingDate: {
@@ -61,12 +63,14 @@ const BookingRoomTypes = () => {
                 end: endDate
             }
         })
+        setBookDate({...bookDate, startDate, endDate})
+
     }
+
 
     switch (checkedRooms.state) {
 
         case 'hasValue':
-            
             const checkedRoomsList = checkedRooms.contents.map(room => {
                 let img = room.roomType.images[1].name
                 let price = new Intl.NumberFormat('tl-PH', { 
@@ -86,6 +90,7 @@ const BookingRoomTypes = () => {
                                 <form onSubmit={handleSelect}>
                                     <input type="hidden" name="room" value={room.roomType.name} />
                                     <input type="hidden" name="total" value={room.roomType.price} />
+                                    <input type="hidden" name="roomType" value={room.roomType._id} />
                                     <button className="btn btn-primary">Select</button>
                                 </form>
                             </div>
@@ -115,7 +120,7 @@ const BookingRoomTypes = () => {
                             small={true}  
                         />
                         <div className="col-auto">
-                            <select onChange={(e)=>setBooking({...booking, guests: e.target.value})} class="custom-select-sm w-auto" value={booking.guests}>
+                            <select onChange={(e)=>setBooking({...booking, guests: e.target.value})} className="custom-select-sm w-auto" value={booking.guests}>
                                 {guestsOptions.map(option => {return option})}
                             </select>
                         </div>
@@ -144,7 +149,41 @@ const BookingRoomTypes = () => {
 
         case 'hasError':
 
-            throw checkedRooms.contents
+            // throw checkedRooms.contents
+            return(
+                <div className="container-fluid my-4">
+                    <div className="row align-items-center">
+                        <DateRangePicker
+                            startDate={booking.bookingDate.start}
+                            startDateId="startDateId"
+                            endDate={booking.bookingDate.end}
+                            endDateId="endDateId"
+                            onDatesChange={ handleChangeDate } 
+                            minimumNights={1}
+                            numberOfMonths={1}
+                            focusedInput={focus.focusedInput} 
+                            onFocusChange={ (focusedInput) => setFocus( { focusedInput: focusedInput }) }
+                            startDatePlaceholderText="Check-in"
+                            endDatePlaceholderText="Check-out"
+                            customArrowIcon={<span className="mr-2">|</span>}
+                            required={true}
+                            readOnly={true}
+                            small={true}  
+                        />
+                        <div className="col-auto">
+                            <select onChange={(e)=>setBooking({...booking, guests: e.target.value})} className="custom-select-sm w-auto" value={booking.guests}>
+                                {guestsOptions.map(option => {return option})}
+                            </select>
+                        </div>
+                    </div>
+                    <h3 className="text-center roomBook__rooms__title">Choose your room</h3>
+                    <div className="row justify-content-center align-items-center mt-5">
+                        <div className="col-12">
+                            <h4 className="text-danger text-center">No Available Rooms</h4>
+                        </div>
+                    </div>
+                </div>
+            )
 
     }
 }

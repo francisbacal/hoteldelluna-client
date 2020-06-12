@@ -1,9 +1,12 @@
-// import React from 'react';
-import axios from 'axios';
-// import api from './../components/init'
+import api from './../components/init'
+import moment from 'moment';
 
-const url = "http://localhost:5000"; //change after
 
-export function checkRooms(start, end, guests) {
-    return axios.get(`${url}/rooms/${start}/${end}/${guests}`).then(res=> res.data)
+export async function checkRooms(dateStart, dateEnd, guests) {
+   
+    let start = moment(dateStart).format('MM-DD-YYYY')
+    let end = moment(dateEnd).format('MM-DD-YYYY')
+    let response =  await api.get(`/rooms/${start}/${end}/${guests}`).then(res=> res.data)
+    
+    return response;
 }

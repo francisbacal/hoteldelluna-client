@@ -5,6 +5,7 @@ import './scss/style.scss'
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Book from './components/Book';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -14,13 +15,13 @@ function App() {
             <Switch>
                 <Route exact path='/'>
                     <Home />
-                </Route> 
-                <Route exact path='/about'></Route> 
-                <Route exact path='/rooms'></Route> 
+                </Route>
                 <Route exact path='/book'>
                     <Book />
-                </Route> 
-                <Route exact path='/contact-us'></Route> 
+                </Route>
+                <Route exact path='/login'>
+                    <Login />
+                </Route>
             </Switch>
         </div>
     </Router>

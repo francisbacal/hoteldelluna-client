@@ -21,6 +21,17 @@ function Book() {
 
     const bookDate = useRecoilValue(roomCheckState);
 
+    const processComponent = () => {
+
+        if (!booking.bookingRoomDone) {
+            return <BookingRoomTypes />
+        } else if (!booking.bookingCustomerInfoDone) {
+            return <BookingCustomerInfo />
+        }
+
+
+    }
+
     useEffect(()=>{
         setHasChecked(false)
         setBooking({
@@ -43,14 +54,13 @@ function Book() {
                             <div className="row">
                                 <div className="col">
                                     <hr className="bg-info"/>
-                                    <h1 class="roomBook__title">Your Booking</h1>
+                                    <h1 className="roomBook__title">Your Booking</h1>
                                 </div>
                             </div>
                             <hr className="bg-info"/>
                             <div className="row justify-content-center">
                                 <div className="col-md-8 mt-4 roomBook__rooms">
-                                    {!booking.bookingRoomDone ? <BookingRoomTypes /> : ''}
-                                    {!booking.bookingCustomerInfoDone ? <BookingCustomerInfo /> : ''}
+                                    {processComponent()}
                                 </div>
                                 <div className="col-md-4 pr-0 mb-5">
                                     <div className="container-fluid mt-4 sticky-top p-4 roomBook__summary">
@@ -58,9 +68,7 @@ function Book() {
                                         <h3 className="roomBook__summary__title">Booking Summary</h3>
                                         <hr className="bg-info" />
                                         <div className="row justify-content-center align-items-center roomBook__summary__details">
-                                            {/* <div className="col-12"> */}
-                                                { booking.nextLoading ? <LoadingSpinner /> : <BookingSummary /> }
-                                            {/* </div> */}
+                                            { booking.nextLoading ? <LoadingSpinner /> : <BookingSummary /> }
                                         </div>
                                     </div>
                                 </div>

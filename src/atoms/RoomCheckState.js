@@ -20,15 +20,11 @@ const checkedRoomsState = selector({
     key: 'getCheckedRooms',
     get: async ({get}) => {
         let {startDate, endDate, guests} = get(roomCheckState)
-        
-        let start = encodeURIComponent(moment(startDate).set({h:14}).format());
-        let end = encodeURIComponent(moment(endDate).format());
-        
-        console.log(start, end)
-        const response = await checkRooms(start, end, guests);
+
+        const response = await checkRooms(startDate, endDate, guests);
 
         if (response.error) {
-            throw response.error;
+            return response
         }
         return response
     }

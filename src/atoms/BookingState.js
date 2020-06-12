@@ -22,4 +22,16 @@ const bookingState = atom({
     }
 })
 
-export {bookingState}
+const agreeTerms = atom ({
+    key: "bookingTerms",
+    default: {
+        policiesAgree: false
+    }
+})
+
+const bookingConfirmedDetailsState = atom({
+    key: "bookingConfirmedDetailsState",
+    default: {}
+})
+
+export {bookingState, agreeTerms, bookingConfirmedDetailsState}

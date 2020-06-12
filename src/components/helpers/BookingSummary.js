@@ -1,8 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import LoadingSpinner from './LoadingSpinner'
-
 import {bookingState} from './../../atoms/BookingState';
 import { useRecoilValue } from 'recoil';
 

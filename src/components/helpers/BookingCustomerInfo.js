@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
-import {useRecoilState} from 'recoil'
+import {useRecoilState} from 'recoil';
 
-import {bookingState} from './../../atoms/BookingState'
+import {bookingState} from './../../atoms/BookingState';
+import BookingCheckoutForm from './BookingCheckoutForm';
 
 const BookingCustomerInfo = () => {
 
@@ -20,7 +21,16 @@ const BookingCustomerInfo = () => {
     // eslint-disable-next-line
     },[])
 
-    return('CUSTOMER')
+    return(
+        <div className="container mb-5">
+            <h3 className="text-center roomBook__rooms__title">Checkout</h3>
+            <div className="row roomBook__rooms__list">
+                <div className="col-12">
+                    <BookingCheckoutForm />
+                </div>
+            </div>
+        </div>
+    )
 }
 
 

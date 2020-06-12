@@ -6,11 +6,15 @@ const bookingState = atom({
         nextLoading: false,
         bookingRoomDone: false,
         bookingCustomerInfoDone: true,
-        customerEmail: null,
         room: null,
         roomType: null,
         guests: null,
         total: 0,
+        customer: {
+            email: null,
+            firstname: null,
+            lastname: null
+        },
         bookingDate: {
             start: null,
             end: null

@@ -1,7 +1,9 @@
 @import './abstracts/variables';
 
 // NOTE: the order of these styles DO matter
-
+.DateRangePickerInput__withBorder {
+    border-color: $primary;
+}
 .DateInput_input {
     color: $prussian;
 

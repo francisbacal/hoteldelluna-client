@@ -12,7 +12,9 @@ const Login = () => {
     const [userDetails, setUserDetails] = useRecoilState(userState)
     const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState)
 
-    
+    if (loginResponse.isLoggedIn) {
+        return <Redirect to='/dashboard' />
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -20,12 +22,8 @@ const Login = () => {
         
         if (user.data) {
             let error = user.data.error
-            if (error == "Login failed. Check Credentials") {
-                console.log('YES')
-            }
             setLoginResponse({...loginResponse, error: 'Login failed. Check Credentials'})
         } else {
-            console.log('success')
             setUserDetails({
                 _id: user.authenticatedUser._id,
                 firstname: user.authenticatedUser.firstname,
@@ -33,8 +31,10 @@ const Login = () => {
                 email: loginDetails.email
             })
             setToken(user.token)
-            setLoginResponse({...loginResponse, success: true})
+            setLoginResponse({...loginResponse, isLoggedIn: true})
+            
         }
+        console.log(loginResponse)
 
     }
 
@@ -61,11 +61,11 @@ const Login = () => {
                                 
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-group">
-                                        <label htmlFor="email">Email:</label>
+                                        <label className="float-left" htmlFor="email">Email:</label>
                                         <input onChange={handleChange} type="text" className="form-control" name="email" id="email" />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="password">Password:</label>
+                                        <label className="float-left" htmlFor="password">Password:</label>
                                         <input onChange={handleChange} type="password" className="form-control" name="password" id="password" />
                                     </div>
                                     <button className="btn btn-secondary text-warning mt-2">Login</button>

@@ -45,7 +45,7 @@ const BookingCheckoutForm = () => {
     }
 
     return(
-        <div className="container-fluid">
+        <div className="container-fluid checkout">
             <form onSubmit={handleSubmit}>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-10 col-lg-8 p-3 border border-info">

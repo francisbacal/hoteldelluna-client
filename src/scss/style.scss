@@ -9,6 +9,14 @@
 @import './abstracts/variables';
 @import './abstracts/mixins';
 
+
+$sidebar-bg-color: #01061A;
+$sidebar-color: #D4AF37;
+$highlight-color: #F9DD81;
+$submenu-bg-color: #1A3755;
+$submenu-bg-color-collapsed: #1A3755;
+$icon-bg-color: #1A3755;
+
 $theme-colors: (
   "primary": #1A3755,
   "secondary": #01061A,
@@ -118,6 +126,10 @@ body {
 	background-size: cover;
     background-attachment: fixed;
 
+    &__container {
+        font-family: $font-family-primary !important;
+    }
+
     &__title {
         text-align: center;
         font-family: $font-family-primary;
@@ -154,10 +166,13 @@ body {
 
         &__title{
             font-weight: 700;
+            font-family: $font-family-primary;
+            color: $xicetic
         }
 
         &__list{
             font-family: $font-family-secondary;
+            color: $xicetic;
 
             img {
                 width: calc(25vw);
@@ -165,9 +180,14 @@ body {
 
             &__price {
                 font-size: 2rem;
+                color: $xicetic;
             }
         }
     }
+}
+.checkout {
+    font-family: $font-family-secondary;
+    text-align: left;
 }
 .sticky-top { top: 120px !important; }
 
@@ -190,7 +210,52 @@ body {
         color: $font-primary !important;
     }
 }
+.side-icon {
+    margin-left: 20px;
+    position: relative;
+    &__hamburger {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+.sidebar {
+    min-height: calc(100vh - 80px);
+    z-index: 1050;
 
+    &__title {
+        position: absolute;
+        top: 0;
+        left: 7px;
+        margin-left: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+}
+.dashboard {
+    min-height: calc(100vh - 80px) !important;
+    margin-top: 80px;
+
+    &__cover {
+        height: 40vh;
+        background: $white;
+        background-position: 0% 120%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    &__contents {
+        color: $font-primary
+    }
+}
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';
 @import "./bootstrap/scss/bootstrap";
 
 

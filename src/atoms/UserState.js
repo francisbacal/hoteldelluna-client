@@ -21,7 +21,7 @@ const loginResponseState = atom({
     key: 'loginErrorState',
     default: {
         error: null,
-        success: false,
+        isLoggedIn: false,
     }
 })
 

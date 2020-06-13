@@ -50,7 +50,7 @@ function Book() {
             {/* <div className="container roomBook_container"> */}
                 <div className="row justify-content-center">
                     <div className="col-12 my-5">
-                        <div className="container bg-white">
+                        <div className="container text-left bg-white roomBook_container">
                             <div className="row">
                                 <div className="col">
                                     <hr className="bg-info"/>

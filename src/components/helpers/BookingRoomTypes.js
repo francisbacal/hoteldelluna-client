@@ -101,7 +101,7 @@ const BookingRoomTypes = () => {
 
             return(
                 <div className="container-fluid">
-                    <div className="row align-items-center">
+                    <div className="row align-items-center pickerSmall">
                         <DateRangePicker
                             startDate={booking.bookingDate.start}
                             startDateId="startDateId"

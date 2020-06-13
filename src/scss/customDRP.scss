@@ -1,6 +1,13 @@
 @import './abstracts/variables';
 
 // NOTE: the order of these styles DO matter
+
+.DateInput__small {
+    width: 115px;
+}
+#endDateId {
+    text-align: right;
+}
 .DateRangePickerInput__withBorder {
     border-color: $primary;
 }
@@ -9,6 +16,9 @@
 
     &__focused {
         color: $shadow-blue
+    }
+    &__small {
+        font-size: 1rem;
     }
 }
 

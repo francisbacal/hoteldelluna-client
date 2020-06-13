@@ -6,7 +6,7 @@ import { IconContext } from "react-icons";
 import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
-    const [isToggled, setIsToggled] = useState(true)
+    const [isToggled, setIsToggled] = useState(false)
 
     const handleToggle = () => {
         console.log(isToggled)
@@ -32,7 +32,7 @@ const Sidebar = () => {
                                     className="side-icon__hamburger" />
                             }
                         </IconContext.Provider>
-                        <p onClick={handleToggle} class="sidebar__title">HOTEL DEL LUNA</p>
+                        <p onClick={handleToggle} className="sidebar__title">HOTEL DEL LUNA</p>
                         </div>
                         
                     </Menu>
@@ -40,14 +40,16 @@ const Sidebar = () => {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem icon={<FaMoon />}>Dashboard
-                            <Link to="/dashboard" />
+                        <MenuItem icon={<FaMoon />}>
+                            <Link to="/dashboard">Dashboard</Link>
                         </MenuItem>
-                        <MenuItem icon={<FaTicketAlt />} >Bookings
-                            <Link to="/bookings" />
+                        <MenuItem icon={<FaTicketAlt/>}>Bookings
+                            <Link to='/dashboard/bookings' />
                         </MenuItem>
                         <SubMenu icon={<FaDoorOpen />} title="Rooms">
-                            <MenuItem>Types</MenuItem>
+                            <MenuItem>Types
+                            <Link to='/dashboard/rooms/'/>
+                            </MenuItem>
                             <MenuItem>Lists</MenuItem>
                         </SubMenu>
                     </Menu>

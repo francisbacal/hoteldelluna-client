@@ -15,9 +15,7 @@ const Dashboard = () => {
                     <Sidebar />
                     <Switch>
                         <Route exact path='/dashboard' component={DashboardHome} />
-                        <Route exact path='/dashboard/bookings'>
-                            <DashboardBookings />
-                        </Route>
+                        <Route exact path='/dashboard/bookings' component={DashboardBookings} />
                         <Route exact path='/dashboard/bookings/edit' component={DashboardEditBooking} />
                     </Switch>
                 </Router>

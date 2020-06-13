@@ -1,4 +1,5 @@
-import {atom} from 'recoil';
+import {atom, selector} from 'recoil';
+import {getBookings} from '../api/bookings'
 
 const bookingState = atom({
     key: 'BookingState',
@@ -34,4 +35,17 @@ const bookingConfirmedDetailsState = atom({
     default: {}
 })
 
-export {bookingState, agreeTerms, bookingConfirmedDetailsState}
+const allBookingsState = selector({
+    key: 'allBookingsState',
+    get: async ({get}) => {
+        const response = await getBookings()
+        
+        if (response.error) {
+            return response
+        } else {
+            return response
+        }
+    }
+})
+
+export {bookingState, agreeTerms, bookingConfirmedDetailsState, allBookingsState}

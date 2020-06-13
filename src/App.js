@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {Router, Route, Switch} from 'react-router-dom';
 
 import './scss/style.scss'
 import Navbar from './components/Navbar';
@@ -11,7 +11,7 @@ import PrivateRoute from './components/PrivateRoute';
 import {loginResponseState} from './atoms/UserState';
 import Unauthorized from './components/errorPages/Unauthorized';
 import { useRecoilState } from 'recoil';
-import Sidebar from './components/helpers/Sidebar';
+import history from './components/history'
 
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
         
     }
   return (
-    <Router>
+    <Router history={history}>
         <div className="App">
             <Navbar />
             {/* <Sidebar /> */}

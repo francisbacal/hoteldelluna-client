@@ -227,15 +227,17 @@ body {
         position: absolute;
         top: 0;
         left: 7px;
-        margin-left: 20px;
+        margin-left: 35px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         &:hover {
             cursor: pointer;
         }
+        &--none {
+            display: none;
+        }
     }
-
 }
 .dashboard {
     min-height: calc(100vh - 80px) !important;
@@ -254,6 +256,31 @@ body {
         color: $font-primary
     }
 }
+
+.dbBookings {
+    &__title {
+        font-weight: 700;
+        color: $primary;
+        z-index: 1000;
+    }
+}
+
+.bookingsTable {
+    font-family: $font-family-secondary;
+}
+
+.tableLoading {
+    position: absolute;
+    background: $white;
+}
+.tableError {
+    position: absolute;
+    background: $white;
+}
+.pickerSmall {
+    font-size: 0.5rem;
+}
+
 
 @import '~react-pro-sidebar/dist/scss/styles.scss';
 @import "./bootstrap/scss/bootstrap";

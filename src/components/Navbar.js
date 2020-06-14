@@ -2,13 +2,14 @@ import React, {useState, useEffect} from 'react';
 import brand from './../assets/images/hdl-brand.png'
 // eslint-disable-next-line
 import { Link, NavLink } from 'react-router-dom';
-import {userState} from './../atoms/UserState';
+import {userState,loginResponseState} from './../atoms/UserState';
 import { useRecoilState } from 'recoil';
 import {setToken} from './init'
 import history from './history'
 // eslint-disable-next-line
 const Navbar = () => {
     const [userDetails, setUserDetails] = useRecoilState(userState)
+    const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState)
 
     const handleLogout = (e) => {
         e.preventDefault()
@@ -19,6 +20,7 @@ const Navbar = () => {
             lastname: null,
             email: null
         })
+        setLoginResponse({...loginResponse, isLoggedIn: false})
         history.push('/')
     }
    
@@ -32,12 +34,12 @@ const Navbar = () => {
              <div className="collapse navbar-collapse ml-auto" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/about">Home</NavLink>
+                        <NavLink className="nav-link" to="/">Home</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/book">Book</NavLink>
                     </li>
-                    {userDetails._id ? 
+                    {loginResponse.isLoggedIn ? 
                         <li className="nav-item">
                             <NavLink to="#" className="nav-link" onClick={handleLogout}>Logout</NavLink>
                         </li>

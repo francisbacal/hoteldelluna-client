@@ -14,8 +14,10 @@ const Sidebar = () => {
         console.log(isToggled)
     }
     return (
+        <>
+        <div className={isToggled ? "sidebarover--toggle" : "sidebarover"}/>
         <div className="sidebar">
-            <ProSidebar collapsed={isToggled}>
+            <ProSidebar collapsed={isToggled} breakPoint={"sm"}>
                 
                 <SidebarHeader>
                     <Menu iconShape="square" onClick={handleToggle}>
@@ -61,6 +63,7 @@ const Sidebar = () => {
                 </SidebarFooter>
             </ProSidebar>
         </div>
+        </>
     )
 }
 

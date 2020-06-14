@@ -49,7 +49,6 @@ const RoomsTableData = () => {
     }
 
     const rooms = allRooms.map(room => {
-        console.log(room.name)
         return (
             <tr key={room._id}>
                 <td>{room._id}</td>

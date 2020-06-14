@@ -219,8 +219,23 @@ body {
         }
     }
 }
+.sidebarover {
+    width: 270px;
+    height: calc(100vh - 80px);
+    transition: all .400s ease-in-out;
+
+    &--toggle {
+        width: 80px;
+        transition: all .400s ease-in-out;
+    }
+
+    @media (max-width: 576px) {  
+        display: none;
+    }
+}
 .sidebar {
-    min-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
+    position:fixed;
     z-index: 1050;
 
     &__title {

@@ -52,9 +52,24 @@ export async function getRooms() {
     let response = await api.get('/rooms').then(res=> res.data)
     return response
 }
+export async function getRoom(id) {
+    let response = await api.get(`/rooms/${id}`).then(res=> res.data)
+    return response
+}
+
+export async function updateRoom(id, data) {
+    let response = await api.put(`/rooms/${id}`, data).then(res=> res.data)
+    return response
+}
 
 export async function deleteRoom(id) {
     let response = await api.delete(`/rooms/${id}`).then(res => res.data)
+
+    return response
+}
+
+export async function removeRoomBooking(id, bookingId) {
+    let response = await api.delete(`/rooms/${id}/${bookingId}`).then(res => res.data)
 
     return response
 }

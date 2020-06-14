@@ -116,6 +116,10 @@ const roomToAddState = atom({
             maxguests: 2
         }
 })
+const roomToEditState = atom({
+    key: 'roomToEditState',
+    default: {}
+})
 
 export {
         allRoomsTypesState, 
@@ -124,5 +128,6 @@ export {
         typeToUpdateState, 
         refreshRoomState, 
         allRoomsState,
-        roomToAddState
+        roomToAddState,
+        roomToEditState
     }

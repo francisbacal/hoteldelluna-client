@@ -11,6 +11,7 @@ import history from './history'
 import LoadingSpinner from './helpers/LoadingSpinner';
 import DashboardRooms from './helpers/DashboardRooms';
 import DashboardAddRoom from './helpers/DashboardAddRoom';
+import DashboardEditRoom from './helpers/DashboardEditRoom';
 
 const DashboardAdmin = () => {
 
@@ -37,6 +38,7 @@ const DashboardAdmin = () => {
                         <Route exact path='/dashboard/rooms/add' component={DashboardAddRoom} />
                         <Route exact path='/dashboard/roomtypes' component={DashboardRoomTypes} />
                         <Route path='/dashboard/roomtypes/add' component={DashboardAddType} />
+                        <Route path='/dashboard/rooms/:id' component={DashboardEditRoom} />
                         <React.Suspense fallback={fallback()}>
                             <Route path='/dashboard/roomtypes/:id' component={DashboardEditType} />
                         </React.Suspense>

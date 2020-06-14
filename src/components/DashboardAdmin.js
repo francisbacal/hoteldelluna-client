@@ -6,9 +6,21 @@ import DashboardBookings from './helpers/DashboardBookings';
 import DashboardRoomTypes from './helpers/DashboardRoomTypes';
 import DashboardEditBooking from './helpers/DashboardEditBooking'
 import DashboardAddType from './helpers/DashboardAddType';
+import DashboardEditType from './helpers/DashboardEditType';
 import history from './history'
+import LoadingSpinner from './helpers/LoadingSpinner';
 
 const DashboardAdmin = () => {
+
+    const fallback = () => {
+        return(
+            <div className="container hero">
+                <div className="row justify-content-center align-items-center mt-5">
+                    <LoadingSpinner className="mt-5"/>
+                </div>
+            </div>
+        )
+    }
 
     return(
         <div className="container-fluid dashboard">
@@ -21,6 +33,9 @@ const DashboardAdmin = () => {
                         <Route exact path='/dashboard/bookings/:id' component={DashboardEditBooking} />
                         <Route exact path='/dashboard/roomtypes' component={DashboardRoomTypes} />
                         <Route path='/dashboard/roomtypes/add' component={DashboardAddType} />
+                        <React.Suspense fallback={fallback()}>
+                            <Route path='/dashboard/roomtypes/:id' component={DashboardEditType} />
+                        </React.Suspense>
                     </Switch>
                 </Router>
             </div>  

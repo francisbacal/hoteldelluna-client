@@ -1,31 +1,31 @@
 import React, { useEffect } from 'react';
 import LoadingSpinner from './../LoadingSpinner';
 import { useRecoilValueLoadable, useRecoilState } from 'recoil';
-import { Link } from 'react-router-dom';
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
-import {deleteRoomType} from './../../../api/rooms'
-import { allRoomsTypesState, refreshState } from './../../../atoms/RoomsState';
+import { allRoomsTypesState, refreshState} from './../../../atoms/RoomsState';
+import history from './../../history'
 
 const RoomTypesTableData = () => {
 
     const AllRoomTypes = useRecoilValueLoadable(allRoomsTypesState);
-    const [showDialog, setShowDialog] = useState(false);
     const [typesState, setTypesState] = useRecoilState(refreshState);
 
     useEffect(()=>{
         if (typesState !== null) {
             setTypesState({refresh: !typesState.refresh})
-            console.log(typesState)
         }
     },[])
 
     const deleteApiCall = async (id) => {
         console.log('delete',id)
         setTypesState({delete: id})
+    }
+
+    const handleEdit = (id) => {
+        history.push('/dashboard/roomtypes/'+id)
     }
 
     const handleDelete = (id) => {
@@ -62,13 +62,13 @@ const RoomTypesTableData = () => {
                 return (
                     
                     <tr key={roomType._id}>
-                        {/* <ReactTooltip /> */}
+                        <ReactTooltip />
                         <td>{roomType._id}</td>
                         <td>{roomType.name}</td>
                         <td>{roomType.description}</td>
                         <td>&#8369; {currencyPrice} /night</td>
                         <td>
-                            <Link to={`/dashboard/roomtypes/${roomType._id}`} className="btn-sm btn btn-info text-secondary" data-tip="Edit"><FaEdit /></Link>
+                            <button onClick={()=> handleEdit(roomType._id)} className="btn-sm btn btn-info text-secondary" data-tip="Edit"><FaEdit /></button>
                             &nbsp;
                             <button onClick={()=> handleDelete(roomType._id)} className="btn-sm btn btn-danger text-secondary" data-tip="Delete"><FaTrashAlt /></button>
                         </td>

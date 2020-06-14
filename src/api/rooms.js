@@ -14,6 +14,17 @@ export async function deleteRoomType(id) {
     return response
 }
 
+export async function getRoomType(id) {
+    let response = await api.get(`/types/${id}`).then(res=>res.data).catch(error => error.response)
+
+    return response
+}
+
+export async function updateRoomType(id, formData) {
+    let response = await api.put(`/types/${id}`, formData).then(res=>res.data).catch(error => error.response)
+
+    return response
+}
 
 export async function getRoomTypes() {
    

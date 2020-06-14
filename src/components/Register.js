@@ -6,7 +6,6 @@ import {setToken} from './init'
 import { Redirect } from 'react-router-dom';
 import ErrorMessage from './helpers/ErrorMessage';
 
-
 const Login = () => {
 
     const [loginDetails, setLoginDetails] = useRecoilState(userLoginState)
@@ -35,6 +34,7 @@ const Login = () => {
             setLoginResponse({...loginResponse, isLoggedIn: true})
             
         }
+        console.log(loginResponse)
 
     }
 
@@ -63,6 +63,18 @@ const Login = () => {
                                     <div className="form-group">
                                         <label className="float-left" htmlFor="email">Email:</label>
                                         <input onChange={handleChange} type="text" className="form-control" name="email" id="email" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="float-left" htmlFor="email">Email:</label>
+                                        <input onChange={handleChange} type="text" className="form-control" name="email" id="email" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="float-left" htmlFor="email">Email:</label>
+                                        <input onChange={handleChange} type="text" className="form-control" name="email" id="email" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="float-left" htmlFor="password">Password:</label>
+                                        <input onChange={handleChange} type="password" className="form-control" name="password" id="password" />
                                     </div>
                                     <div className="form-group">
                                         <label className="float-left" htmlFor="password">Password:</label>

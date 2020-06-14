@@ -1,5 +1,4 @@
 import api from './../components/init'
-import axiosInstance from 'axios'
 
 
 export async function login(details) {

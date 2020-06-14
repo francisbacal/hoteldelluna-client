@@ -4,9 +4,7 @@ import "react-dates/lib/css/_datepicker.css";
 import { DateRangePicker } from "react-dates";
 import { Redirect } from "react-router-dom";
 import { useRecoilState } from 'recoil';
-import moment from "moment";
 
-import {checkRooms} from './../api/checkRooms';
 import {roomCheckState, hasCheckedState} from './../atoms/RoomCheckState'
 
 

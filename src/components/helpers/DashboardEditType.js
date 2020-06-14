@@ -50,8 +50,6 @@ const DashboardEditType = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        console.log(typeToUpdate)
-
         let formData = new FormData();
 
         for (let key in typeToUpdate) {

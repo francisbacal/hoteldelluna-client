@@ -7,3 +7,9 @@ export async function getBookings() {
     
     return response;
 }
+export async function getBooking(id) {
+   
+    let response =  await api.get(`/bookings/${id}`).then(res=> res.data)
+    
+    return response;
+}

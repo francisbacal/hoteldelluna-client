@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
-import { DateRangePicker } from "react-dates";
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {roomCheckState, hasCheckedState, checkedRoomsState} from './../atoms/RoomCheckState'
 import { bookingState } from './../atoms/BookingState'

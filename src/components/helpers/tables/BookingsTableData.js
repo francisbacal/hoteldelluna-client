@@ -20,8 +20,8 @@ const BookingsTableData = () => {
                 const checkin = moment(booking.bookingDate.start).format('LL')
                 const checkout = moment(booking.bookingDate.end).format('LL')
                 return (
-                    <>
-                    <tr key={booking._id+'-'+booking.roomType.name}>
+                    
+                    <tr key={booking._id}>
                         <td>{booking._id}</td>
                         <td>{booking.roomType.name}</td>
                         <td>{checkin}</td>
@@ -30,7 +30,6 @@ const BookingsTableData = () => {
                             <Link to={`/dashboard/bookings/${booking._id}`} className="btn-sm btn btn-info text-secondary"><FaEdit />Edit</Link>
                         </td>
                     </tr>
-                    </>
                 )
             })
 

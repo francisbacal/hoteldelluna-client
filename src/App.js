@@ -41,7 +41,7 @@ function App() {
                 <Route exact path='/login'>
                     <Login />
                 </Route>
-                <Route path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} />
+                <PrivateRoute path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} />
                 <Route exact path='/unauthorized' component={Unauthorized} />
             </Switch>
         </div>

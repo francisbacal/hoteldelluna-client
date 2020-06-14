@@ -33,12 +33,12 @@ const DashboardAdmin = () => {
                     <Switch>
                         <Route exact path='/dashboard' component={DashboardHome} />
                         <Route exact path='/dashboard/bookings' component={DashboardBookings} />
-                        <Route exact path='/dashboard/bookings/:id' component={DashboardEditBooking} />
                         <Route exact path='/dashboard/rooms' component={DashboardRooms} />
                         <Route exact path='/dashboard/rooms/add' component={DashboardAddRoom} />
                         <Route exact path='/dashboard/roomtypes' component={DashboardRoomTypes} />
                         <Route path='/dashboard/roomtypes/add' component={DashboardAddType} />
                         <Route path='/dashboard/rooms/:id' component={DashboardEditRoom} />
+                        <Route exact path='/dashboard/bookings/:id' component={DashboardEditBooking} />
                         <React.Suspense fallback={fallback()}>
                             <Route path='/dashboard/roomtypes/:id' component={DashboardEditType} />
                         </React.Suspense>

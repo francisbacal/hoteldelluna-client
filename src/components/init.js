@@ -3,14 +3,10 @@ import axios from 'axios';
 
 export const baseUrl = process.env.NODE_ENV === 'development' ? 'https://hoteldellunaserver.herokuapp.com/' : ''
 
-const baseURL = "http://localhost:5000"; //change after
+const baseURL = "https://hoteldellunaserver.herokuapp.com"; //change after
 
 const api = axios.create({baseURL: baseURL})
 
-//delete after dev
-let token2 = localStorage.getItem('hdlToken')
-api.defaults.headers.common['Authorization'] = `Bearer ${token2}`
-//delete lines above after dev
 
 export function setToken(token) {
     if (token) {

@@ -26,6 +26,7 @@ const DashboardEditRoom = () => {
 
             setRoomTypesState(roomTypes)
             setRoomToEdit(room)
+            
             setIsFetching(false)
         }
         getData()
@@ -101,7 +102,7 @@ const DashboardEditRoom = () => {
         <div className="col bg-white addType">
             <div className="row justify-content-center align-items-center">
                 <div className="col-12 dbBookings">
-                    <h1 className='dbBookings__title'>Room Types - Edit</h1>
+                    <h1 className='dbBookings__title'>Room - Edit</h1>
                 </div>
             </div>
             <div className="row justify-content-center align-items-center">

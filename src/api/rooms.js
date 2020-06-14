@@ -1,5 +1,9 @@
 import api from './../components/init'
 
+/*==========================
+| ROOM TYPES
+|===========================*/
+
 
 export async function addRoomType(data) {
     let response = await api.post(`/types`, data).then(res=> res.data)
@@ -31,4 +35,19 @@ export async function getRoomTypes() {
     let response =  await api.get('/types').then(res=> res.data)
     
     return response;
+}
+
+/*==========================
+| ROOMS
+|===========================*/
+
+export async function getRooms() {
+    let response = await api.get('/rooms').then(res=> res.data)
+    return response
+}
+
+export async function deleteRoom(id) {
+    let response = await api.delete(`/rooms/${id}`).then(res => res.data)
+
+    return response
 }

@@ -1,6 +1,10 @@
 import {atom, selector} from 'recoil';
-import {getRoomTypes, deleteRoomType, getRoomType} from '../api/rooms';
+import {getRoomTypes, deleteRoomType, getRooms, deleteRoom} from '../api/rooms';
 
+
+/*==========================
+| ROOM TYPES
+|===========================*/
 
 const refreshState = atom({
     key: 'refreshState',
@@ -58,4 +62,49 @@ const allRoomsTypesState = selector({
     }
 })
 
-export {allRoomsTypesState, refreshState, typeToAddState, typeToUpdateState}
+/*==========================
+| ROOMS
+|===========================*/
+
+const refreshRoomState = atom({
+    key: 'refreshRoomState',
+    default: null
+})
+
+const allRoomsState = selector({
+    key: 'allRoomsState',
+    get: async ({get}) => {
+
+        let state = get(refreshRoomState)
+        let response;
+
+        if (state === null) {
+
+            response = await getRooms()
+
+        } else if (state.delete) {
+
+            let deleteResponse = await deleteRoom(state.delete);
+
+            if (deleteResponse.error) {
+                response = deleteResponse
+            } else {
+                response = await getRooms();
+            }
+            
+        } else if (state.refresh) {
+
+            response = await getRooms()
+
+        } else {
+
+            response = await getRooms()
+        }
+
+        return response
+        
+    }
+
+})
+
+export {allRoomsTypesState, refreshState, typeToAddState, typeToUpdateState, refreshRoomState, allRoomsState}

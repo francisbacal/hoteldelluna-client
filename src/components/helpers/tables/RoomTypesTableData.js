@@ -62,7 +62,6 @@ const RoomTypesTableData = () => {
                 return (
                     
                     <tr key={roomType._id}>
-                        <ReactTooltip />
                         <td>{roomType._id}</td>
                         <td>{roomType.name}</td>
                         <td>{roomType.description}</td>
@@ -71,6 +70,7 @@ const RoomTypesTableData = () => {
                             <button onClick={()=> handleEdit(roomType._id)} className="btn-sm btn btn-info text-secondary" data-tip="Edit"><FaEdit /></button>
                             &nbsp;
                             <button onClick={()=> handleDelete(roomType._id)} className="btn-sm btn btn-danger text-secondary" data-tip="Delete"><FaTrashAlt /></button>
+                            <ReactTooltip />
                         </td>
                     </tr>
                 )

@@ -46,9 +46,6 @@ const Sidebar = () => {
                         <MenuItem icon={<FaTicketAlt/>}>Bookings
                             <Link to='/dashboard/bookings' />
                         </MenuItem>
-                        {/* <MenuItem icon={<FaTicketAlt/>}>Room Types
-                            <Link to='/dashboard/roomtypes' />
-                        </MenuItem> */}
                         <SubMenu icon={<FaDoorOpen />} title="Rooms">
                             <MenuItem icon={<FaDotCircle/>}>
                             <Link to='/dashboard/rooms'>Rooms</Link>

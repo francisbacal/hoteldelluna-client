@@ -147,6 +147,13 @@ const DashboardEditType = () => {
                         <button className="btn btn-primary">EDIT</button>
                     </form>
                 </div>
+                {/* <div className="col-12 colmd-8 col-lg-4 text-secondary">
+                    <div className="d-flex">
+                        <div className="col-4">
+                            <img src=
+                        </div>
+                    </div>
+                </div> */}
             </div>
         </div>
     )

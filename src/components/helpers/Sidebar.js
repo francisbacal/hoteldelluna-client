@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ProSidebar, SidebarHeader, SidebarFooter, SidebarContent, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
-import { FaMoon, FaTicketAlt, FaDoorOpen } from "react-icons/fa";
+import { FaMoon, FaTicketAlt, FaDoorOpen, FaDotCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { Link } from 'react-router-dom';
 
@@ -46,15 +46,17 @@ const Sidebar = () => {
                         <MenuItem icon={<FaTicketAlt/>}>Bookings
                             <Link to='/dashboard/bookings' />
                         </MenuItem>
-                        <MenuItem icon={<FaTicketAlt/>}>Room Types
+                        {/* <MenuItem icon={<FaTicketAlt/>}>Room Types
                             <Link to='/dashboard/roomtypes' />
-                        </MenuItem>
-                        {/* <SubMenu icon={<FaDoorOpen />} title="Rooms">
-                            <MenuItem>
+                        </MenuItem> */}
+                        <SubMenu icon={<FaDoorOpen />} title="Rooms">
+                            <MenuItem icon={<FaDotCircle/>}>
+                            <Link to='/dashboard/rooms'>Rooms</Link>
+                            </MenuItem>
+                            <MenuItem icon={<FaDotCircle/>}>
                             <Link to='/dashboard/roomtypes'>Types</Link>
                             </MenuItem>
-                            <MenuItem>Lists</MenuItem>
-                        </SubMenu> */}
+                        </SubMenu>
                     </Menu>
                 </SidebarContent>
                 <SidebarFooter>

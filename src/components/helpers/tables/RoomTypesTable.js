@@ -1,9 +1,10 @@
 import React from 'react';
 import RoomTypesTableData from './RoomTypesTableData';
-
+import ReactTooltip from 'react-tooltip';
 const RoomTypesTable = () => {
     return (
-        
+        <>
+        <ReactTooltip />
         <table className="table table-striped table-hover">
             <thead>
                 <tr>
@@ -18,6 +19,7 @@ const RoomTypesTable = () => {
                 <RoomTypesTableData />
             </tbody>
         </table>
+        </>
     )
 }
 

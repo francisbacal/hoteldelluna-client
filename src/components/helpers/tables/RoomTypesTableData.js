@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoadingSpinner from './../LoadingSpinner';
 import { useRecoilValueLoadable, useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
@@ -8,23 +8,27 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import {deleteRoomType} from './../../../api/rooms'
-import { allRoomsTypesState, toBeDeletedTypeState } from './../../../atoms/RoomsState';
+import { allRoomsTypesState, refreshState } from './../../../atoms/RoomsState';
 
 const RoomTypesTableData = () => {
 
     const AllRoomTypes = useRecoilValueLoadable(allRoomsTypesState);
     const [showDialog, setShowDialog] = useState(false);
-    const [deleteID, setDeleteID] = useRecoilState(toBeDeletedTypeState);
+    const [typesState, setTypesState] = useRecoilState(refreshState);
 
+    useEffect(()=>{
+        if (typesState !== null) {
+            setTypesState({refresh: !typesState.refresh})
+            console.log(typesState)
+        }
+    },[])
 
     const deleteApiCall = async (id) => {
         console.log('delete',id)
-        setDeleteID(id)
+        setTypesState({delete: id})
     }
 
     const handleDelete = (id) => {
-        // console.log(id)
-        // setDeleteID(id)
         confirmAlert({
             customUI: ({ onClose }) => {
                 return (
@@ -56,9 +60,9 @@ const RoomTypesTableData = () => {
                     style: 'decimal'
                 }).format(roomType.price);
                 return (
-                    <>
-                    <ReactTooltip />
+                    
                     <tr key={roomType._id}>
+                        {/* <ReactTooltip /> */}
                         <td>{roomType._id}</td>
                         <td>{roomType.name}</td>
                         <td>{roomType.description}</td>
@@ -69,7 +73,6 @@ const RoomTypesTableData = () => {
                             <button onClick={()=> handleDelete(roomType._id)} className="btn-sm btn btn-danger text-secondary" data-tip="Delete"><FaTrashAlt /></button>
                         </td>
                     </tr>
-                    </>
                 )
             })
 

@@ -9,7 +9,7 @@ const DashboardRoomTypes = () => {
             <div className="row justify-content-center align-items-center">
                 <div className="col-12 dbBookings">
                     <h1 className='dbBookings__title'>Room Types</h1>
-                    <Link to='/book' className="btn-sm btn-success rounded" type="button"><FaPlusCircle /> Add New Type</Link>
+                    <Link to='/dashboard/roomtypes/add' className="btn-sm btn-success rounded" type="button"><FaPlusCircle /> Add New Type</Link>
                 </div>
             </div>
             <div className="row justify-content-center align-items-center">

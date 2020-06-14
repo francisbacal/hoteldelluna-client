@@ -3,45 +3,14 @@ import { allBookingsState } from './../../../atoms/BookingState';
 import LoadingSpinner from './../LoadingSpinner';
 import { useRecoilValueLoadable } from 'recoil';
 import { Link } from 'react-router-dom';
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import moment from 'moment';
-import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { useState } from 'react';
 
 
 const BookingsTableData = () => {
 
     const allBookings = useRecoilValueLoadable(allBookingsState);
-    const [showDialog, setShowDialog] = useState(false)
-    const [deleteID, setDeleteID] = useState(null)
-
-    const deleteApiCall = (id) => {
-        console.log('delete',id)
-    }
-    const handleDelete = (id) => {
-        // console.log(id)
-        // setDeleteID(id)
-        confirmAlert({
-            customUI: ({ onClose }) => {
-                return (
-                    <div className='custom-ui'>
-                        <h1>Are you sure?</h1>
-                        <p>You want to delete this file?</p>
-                        <button onClick={() => onClose()}>No</button>
-                        <button
-                            onClick={() => {
-                                deleteApiCall(id);
-                                onClose();
-                            }}
-                        >
-                            Yes, Delete it!
-                  </button>
-                    </div>
-                );
-            }
-        });
-    }
 
     switch (allBookings.state) {
 
@@ -52,7 +21,7 @@ const BookingsTableData = () => {
                 const checkout = moment(booking.bookingDate.end).format('LL')
                 return (
                     <>
-                    <tr key={booking._id}>
+                    <tr key={booking._id+'-'+booking.roomType.name}>
                         <td>{booking._id}</td>
                         <td>{booking.roomType.name}</td>
                         <td>{checkin}</td>

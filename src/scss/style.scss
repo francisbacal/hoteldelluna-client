@@ -284,6 +284,10 @@ body {
     font-size: 0.5rem;
 }
 
+.addType {
+    font-family: $font-family-secondary;
+}
+
 
 @import '~react-pro-sidebar/dist/scss/styles.scss';
 @import "./bootstrap/scss/bootstrap";

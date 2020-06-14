@@ -41,6 +41,13 @@ export async function getRoomTypes() {
 | ROOMS
 |===========================*/
 
+export async function addRoom(data) {
+    let response = await api.post(`/rooms/`, data).then(res=> res.data)
+    .catch(error => error.response)
+
+    return response
+}
+
 export async function getRooms() {
     let response = await api.get('/rooms').then(res=> res.data)
     return response

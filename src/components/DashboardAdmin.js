@@ -10,6 +10,7 @@ import DashboardEditType from './helpers/DashboardEditType';
 import history from './history'
 import LoadingSpinner from './helpers/LoadingSpinner';
 import DashboardRooms from './helpers/DashboardRooms';
+import DashboardAddRoom from './helpers/DashboardAddRoom';
 
 const DashboardAdmin = () => {
 
@@ -33,6 +34,7 @@ const DashboardAdmin = () => {
                         <Route exact path='/dashboard/bookings' component={DashboardBookings} />
                         <Route exact path='/dashboard/bookings/:id' component={DashboardEditBooking} />
                         <Route exact path='/dashboard/rooms' component={DashboardRooms} />
+                        <Route exact path='/dashboard/rooms/add' component={DashboardAddRoom} />
                         <Route exact path='/dashboard/roomtypes' component={DashboardRoomTypes} />
                         <Route path='/dashboard/roomtypes/add' component={DashboardAddType} />
                         <React.Suspense fallback={fallback()}>

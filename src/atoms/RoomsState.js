@@ -107,4 +107,22 @@ const allRoomsState = selector({
 
 })
 
-export {allRoomsTypesState, refreshState, typeToAddState, typeToUpdateState, refreshRoomState, allRoomsState}
+const roomToAddState = atom({
+    key: 'roomToAddState',
+    default:
+        {
+            name: null,
+            roomType: null,
+            maxguests: 2
+        }
+})
+
+export {
+        allRoomsTypesState, 
+        refreshState, 
+        typeToAddState, 
+        typeToUpdateState, 
+        refreshRoomState, 
+        allRoomsState,
+        roomToAddState
+    }

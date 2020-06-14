@@ -3,9 +3,10 @@ import Sidebar from './helpers/Sidebar'
 import DashboardHome from './helpers/DashboardHome';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import DashboardBookings from './helpers/DashboardBookings';
+import DashboardRoomTypes from './helpers/DashboardRoomTypes';
 import DashboardEditBooking from './helpers/DashboardEditBooking'
 
-const Dashboard = () => {
+const DashboardAdmin = () => {
 
     
     return(
@@ -15,10 +16,9 @@ const Dashboard = () => {
                     <Sidebar />
                     <Switch>
                         <Route exact path='/dashboard' component={DashboardHome} />
-                        <Route exact path='/dashboard/bookings'>
-                            <DashboardBookings />
-                        </Route>
+                        <Route exact path='/dashboard/bookings' component={DashboardBookings} />
                         <Route exact path='/dashboard/bookings/edit' component={DashboardEditBooking} />
+                        <Route path='/dashboard/roomtypes' component={DashboardRoomTypes} />
                     </Switch>
                 </Router>
             </div>  
@@ -26,4 +26,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard;
+export default DashboardAdmin;

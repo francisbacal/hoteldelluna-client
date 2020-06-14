@@ -20,7 +20,7 @@ const Sidebar = () => {
                 <SidebarHeader>
                     <Menu iconShape="square" onClick={handleToggle}>
                         <div className="side-icon">
-                        <IconContext.Provider value={{ size: '1.5rem' }}>
+                        <IconContext.Provider value={{ size: '2.5rem' }}>
                             {isToggled
                                 ?
                                 <AiOutlineMenuUnfold
@@ -32,7 +32,7 @@ const Sidebar = () => {
                                     className="side-icon__hamburger" />
                             }
                         </IconContext.Provider>
-                        <p onClick={handleToggle} className="sidebar__title">HOTEL DEL LUNA</p>
+                        <p onClick={handleToggle} className={isToggled ? "sidebar__title--none" : "sidebar__title"}>Navigation</p>
                         </div>
                         
                     </Menu>
@@ -46,12 +46,15 @@ const Sidebar = () => {
                         <MenuItem icon={<FaTicketAlt/>}>Bookings
                             <Link to='/dashboard/bookings' />
                         </MenuItem>
-                        <SubMenu icon={<FaDoorOpen />} title="Rooms">
-                            <MenuItem>Types
-                            <Link to='/dashboard/rooms/'/>
+                        <MenuItem icon={<FaTicketAlt/>}>Room Types
+                            <Link to='/dashboard/roomtypes' />
+                        </MenuItem>
+                        {/* <SubMenu icon={<FaDoorOpen />} title="Rooms">
+                            <MenuItem>
+                            <Link to='/dashboard/roomtypes'>Types</Link>
                             </MenuItem>
                             <MenuItem>Lists</MenuItem>
-                        </SubMenu>
+                        </SubMenu> */}
                     </Menu>
                 </SidebarContent>
                 <SidebarFooter>

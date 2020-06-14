@@ -226,7 +226,7 @@ body {
     &__title {
         position: absolute;
         top: 0;
-        left: 7px;
+        left: 10px;
         margin-left: 35px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -262,6 +262,9 @@ body {
         font-weight: 700;
         color: $primary;
         z-index: 1000;
+    }
+    &__edit {
+        font-family: $font-family-secondary;
     }
 }
 

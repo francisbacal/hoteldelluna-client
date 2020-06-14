@@ -1,24 +1,27 @@
 import React from 'react';
-import { allBookingsState } from './../../../atoms/BookingState';
 import LoadingSpinner from './../LoadingSpinner';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable, useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
-import moment from 'moment';
-import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert'; // Import
+import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
+import ReactTooltip from 'react-tooltip';
+import {deleteRoomType} from './../../../api/rooms'
+import { allRoomsTypesState, toBeDeletedTypeState } from './../../../atoms/RoomsState';
+
+const RoomTypesTableData = () => {
+
+    const AllRoomTypes = useRecoilValueLoadable(allRoomsTypesState);
+    const [showDialog, setShowDialog] = useState(false);
+    const [deleteID, setDeleteID] = useRecoilState(toBeDeletedTypeState);
 
 
-const BookingsTableData = () => {
-
-    const allBookings = useRecoilValueLoadable(allBookingsState);
-    const [showDialog, setShowDialog] = useState(false)
-    const [deleteID, setDeleteID] = useState(null)
-
-    const deleteApiCall = (id) => {
+    const deleteApiCall = async (id) => {
         console.log('delete',id)
+        setDeleteID(id)
     }
+
     const handleDelete = (id) => {
         // console.log(id)
         // setDeleteID(id)
@@ -28,44 +31,49 @@ const BookingsTableData = () => {
                     <div className='custom-ui'>
                         <h1>Are you sure?</h1>
                         <p>You want to delete this file?</p>
-                        <button onClick={() => onClose()}>No</button>
-                        <button
+                        <button className="btn btn-info" onClick={() => onClose()}>No</button>
+                        <button className="btn btn-danger ml-3"
                             onClick={() => {
                                 deleteApiCall(id);
                                 onClose();
                             }}
-                        >
-                            Yes, Delete it!
-                  </button>
+                        >Yes, Delete it!
+                        </button>
                     </div>
                 );
             }
         });
     }
 
-    switch (allBookings.state) {
+
+    switch (AllRoomTypes.state) {
 
         case 'hasValue':
 
-            const bookings = allBookings.contents.map(booking => {
-                const checkin = moment(booking.bookingDate.start).format('LL')
-                const checkout = moment(booking.bookingDate.end).format('LL')
+            const roomTypes = AllRoomTypes.contents.map(roomType => {
+                let currencyPrice = new Intl.NumberFormat('tl-PH', { 
+                    currency: 'PHP',
+                    style: 'decimal'
+                }).format(roomType.price);
                 return (
                     <>
-                    <tr key={booking._id}>
-                        <td>{booking._id}</td>
-                        <td>{booking.roomType.name}</td>
-                        <td>{checkin}</td>
-                        <td>{checkout}</td>
+                    <ReactTooltip />
+                    <tr key={roomType._id}>
+                        <td>{roomType._id}</td>
+                        <td>{roomType.name}</td>
+                        <td>{roomType.description}</td>
+                        <td>&#8369; {currencyPrice} /night</td>
                         <td>
-                            <Link to={`/dashboard/bookings/${booking._id}`} className="btn-sm btn btn-info text-secondary"><FaEdit />Edit</Link>
+                            <Link to={`/dashboard/roomtypes/${roomType._id}`} className="btn-sm btn btn-info text-secondary" data-tip="Edit"><FaEdit /></Link>
+                            &nbsp;
+                            <button onClick={()=> handleDelete(roomType._id)} className="btn-sm btn btn-danger text-secondary" data-tip="Delete"><FaTrashAlt /></button>
                         </td>
                     </tr>
                     </>
                 )
             })
 
-            return bookings
+            return roomTypes;
 
         case 'loading':
             return (
@@ -89,4 +97,4 @@ const BookingsTableData = () => {
 }
 
 
-export default BookingsTableData
+export default RoomTypesTableData

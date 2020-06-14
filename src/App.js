@@ -6,7 +6,8 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Book from './components/Book';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+// import Dashboard from './components/Dashboard';
+import DashboardAdmin from './components/DashboardAdmin';
 import PrivateRoute from './components/PrivateRoute';
 import {loginResponseState} from './atoms/UserState';
 import Unauthorized from './components/errorPages/Unauthorized';
@@ -40,7 +41,7 @@ function App() {
                 <Route exact path='/login'>
                     <Login />
                 </Route>
-                <Route path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={Dashboard} />
+                <Route path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} />
                 <Route exact path='/unauthorized' component={Unauthorized} />
             </Switch>
         </div>

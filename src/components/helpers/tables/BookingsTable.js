@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaPlusCircle} from "react-icons/fa";
 import BookingsTableData from './BookingsTableData'
 
 const BookingsTable = () => {

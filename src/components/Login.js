@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {login} from './../api/userLogin';
 import {userState, userLoginState, loginResponseState} from './../atoms/UserState';
 import { useRecoilState } from 'recoil';
@@ -12,13 +12,14 @@ const Login = () => {
     const [loginDetails, setLoginDetails] = useRecoilState(userLoginState)
     const [userDetails, setUserDetails] = useRecoilState(userState)
     const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState)
+    const [isLoading, setIsLoading] = useState(false)
 
     if (loginResponse.isLoggedIn) {
         return <Redirect to='/dashboard' />
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setIsLoading(true)
         const user = await login(loginDetails)
         
         if (user.data) {
@@ -35,6 +36,7 @@ const Login = () => {
             setLoginResponse({...loginResponse, isLoggedIn: true})
             
         }
+        setIsLoading(false)
 
     }
 
@@ -68,7 +70,14 @@ const Login = () => {
                                         <label className="float-left" htmlFor="password">Password:</label>
                                         <input onChange={handleChange} type="password" className="form-control" name="password" id="password" />
                                     </div>
-                                    <button className="btn btn-secondary text-warning mt-2">Login</button>
+                                    {!isLoading ?
+                                    <button className="btn btn-secondary text-warning mt-2">Register</button>
+                                    :
+                                    <button class="btn btn-secondary text-warning mt-2" type="button" disabled>
+                                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                    }
                                 </form>
                             </div>
                         </div>

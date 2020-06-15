@@ -9,3 +9,9 @@ export async function login(details) {
     
     return response;
 }
+
+export async function register(details) {
+    let response = await api.post('/users/register', details).then(res => res.data).catch(error => error.response)
+
+    return response
+}

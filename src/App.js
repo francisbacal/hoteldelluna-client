@@ -12,7 +12,8 @@ import PrivateRoute from './components/PrivateRoute';
 import {loginResponseState} from './atoms/UserState';
 import Unauthorized from './components/errorPages/Unauthorized';
 import { useRecoilState } from 'recoil';
-import history from './components/history'
+import history from './components/history';
+import Register from './components/Register'
 
 
 function App() {
@@ -41,7 +42,11 @@ function App() {
                 <Route exact path='/login'>
                     <Login />
                 </Route>
+                <Route exact path='/register'>
+                    <Register />
+                </Route>
                 <PrivateRoute path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} />
+                <Route exact path='/unauthorized' component={Unauthorized} />
                 <Route exact path='/unauthorized' component={Unauthorized} />
             </Switch>
         </div>

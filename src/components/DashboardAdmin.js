@@ -1,17 +1,18 @@
 import React from 'react';
 import Sidebar from './helpers/Sidebar'
-import DashboardHome from './helpers/DashboardHome';
+import history from './history'
 import { Switch, Route, Router } from 'react-router-dom';
+import LoadingSpinner from './helpers/LoadingSpinner';
+import DashboardHome from './helpers/DashboardHome';
 import DashboardBookings from './helpers/DashboardBookings';
 import DashboardRoomTypes from './helpers/DashboardRoomTypes';
 import DashboardEditBooking from './helpers/DashboardEditBooking'
 import DashboardAddType from './helpers/DashboardAddType';
 import DashboardEditType from './helpers/DashboardEditType';
-import history from './history'
-import LoadingSpinner from './helpers/LoadingSpinner';
 import DashboardRooms from './helpers/DashboardRooms';
 import DashboardAddRoom from './helpers/DashboardAddRoom';
 import DashboardEditRoom from './helpers/DashboardEditRoom';
+import NotFound from './errorPages/NotFound';
 
 const DashboardAdmin = () => {
 
@@ -42,6 +43,8 @@ const DashboardAdmin = () => {
                         <React.Suspense fallback={fallback()}>
                             <Route path='/dashboard/roomtypes/:id' component={DashboardEditType} />
                         </React.Suspense>
+                        <Route component={NotFound} />
+
                     </Switch>
                 </Router>
             </div>  

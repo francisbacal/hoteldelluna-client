@@ -12,7 +12,7 @@ import { useRecoilValueLoadable, useRecoilValue, useRecoilState } from 'recoil';
 import ErrorMessage from './ErrorMessage';
 
 
-const BookingRoomTypes = () => {
+const BookingChooseRoom = () => {
     
     const [booking, setBooking] = useRecoilState(bookingState);
     const [bookDate, setBookDate] = useRecoilState(roomCheckState);
@@ -75,6 +75,7 @@ const BookingRoomTypes = () => {
             setValidation({...validation, hasError: false})
         }
         
+        
         setBooking({
             ...booking,
             bookingDate: {
@@ -120,7 +121,8 @@ const BookingRoomTypes = () => {
 
             return(
                 <div className="container-fluid">
-                    <div className="row align-items-center pickerSmall">
+                    {validation.hasError ? <ErrorMessage error={validation.error} /> : ''}
+                    <div className="row align-items-center pickerSmall mt-5">
                         <DateRangePicker
                             startDate={booking.bookingDate.start}
                             startDateId="startDateId"
@@ -151,7 +153,7 @@ const BookingRoomTypes = () => {
                             <div className="col-12 mb-5">
                                 {checkedRoomsList}
                             </div>
-                        </div>
+                    </div>
                 </div>
             );
 
@@ -172,6 +174,7 @@ const BookingRoomTypes = () => {
             console.log(checkedRooms.contents)
             return(
                 <div className="container-fluid my-4">
+                    {validation.hasError ? <ErrorMessage error={validation.error} /> : ''}
                     <div className="row align-items-center">
                         <DateRangePicker
                             startDate={booking.bookingDate.start}
@@ -208,4 +211,4 @@ const BookingRoomTypes = () => {
     }
 }
 
-export default BookingRoomTypes
+export default BookingChooseRoom;

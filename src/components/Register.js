@@ -6,7 +6,7 @@ import { setToken } from './init'
 import { Redirect } from 'react-router-dom';
 import ErrorMessage from './helpers/ErrorMessage';
 
-const Login = () => {
+const Register = () => {
 
     const [loginDetails, setLoginDetails] = useRecoilState(userLoginState)
     const [userDetails, setUserDetails] = useRecoilState(userState)
@@ -137,4 +137,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register

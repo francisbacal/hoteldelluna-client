@@ -9,9 +9,7 @@ const Sidebar = () => {
     const [isToggled, setIsToggled] = useState(false)
 
     const handleToggle = () => {
-        console.log(isToggled)
         setIsToggled(!isToggled)
-        console.log(isToggled)
     }
     return (
         <>

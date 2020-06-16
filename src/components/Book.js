@@ -4,7 +4,7 @@ import "react-dates/lib/css/_datepicker.css";
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {roomCheckState, hasCheckedState, checkedRoomsState} from './../atoms/RoomCheckState'
 import { bookingState } from './../atoms/BookingState'
-import BookingRoomTypes from './helpers/BookingRoomTypes';
+import BookingChooseRoom from './helpers/BookingChooseRoom';
 import BookingCustomerInfo from './helpers/BookingCustomerInfo';
 import BookingSummary from './helpers/BookingSummary';
 import LoadingSpinner from './helpers/LoadingSpinner';
@@ -23,7 +23,7 @@ function Book() {
     const processComponent = () => {
 
         if (!booking.bookingRoomDone) {
-            return <BookingRoomTypes />
+            return <BookingChooseRoom />
         } else if (!booking.bookingCustomerInfoDone) {
             return <BookingCustomerInfo />
         }

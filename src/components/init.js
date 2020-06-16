@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 
-export const baseUrl = process.env.NODE_ENV === 'development' ? 'https://hoteldellunaserver.herokuapp.com/' : ''
+// export const baseUrl = process.env.NODE_ENV === 'development' ? 'https://hoteldellunaserver.herokuapp.com/' : ''
 
-const baseURL = "https://hoteldellunaserver.herokuapp.com"; //change after
+// const baseURL = "https://hoteldellunaserver.herokuapp.com"; //change after
+const baseURL = "http://localhost:5000"; //change after
 
 const api = axios.create({baseURL: baseURL})
 

@@ -1,13 +1,19 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
+import React, { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {bookingState, agreeTerms, bookingConfirmedDetailsState} from './../../atoms/BookingState';
-import {confirmBooking} from './../../api/confirmBooking';
+import {userState} from './../../atoms/UserState';
+import {confirmBooking, paySwipe} from './../../api/confirmBooking';
+import ErrorMessage from './ErrorMessage';
 
 
 const BookingCheckoutForm = () => {
-    const [booking, setBooking] = useRecoilState(bookingState)
-    const [bookingConfirmedDetails, setBookingConfirmedDetails] = useRecoilState(bookingConfirmedDetailsState)
+    const [booking, setBooking] = useRecoilState(bookingState);
+    const [bookingConfirmedDetails, setBookingConfirmedDetails] = useRecoilState(bookingConfirmedDetailsState);
     const [agreeToTerms, setAgreeToTerms] = useRecoilState(agreeTerms);
+    const user = useRecoilValue(userState)
+    const [hasError, setHasError] = useState(false);
+
+    let checkoutError;
 
     const handleChange = (e) => {
         setBooking({
@@ -28,17 +34,36 @@ const BookingCheckoutForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let {customer, bookingDate, roomType, guests} = booking;
+        console.log('submit init')
+        let swipeData;
+        let {customer, bookingDate, roomType, guests, total} = booking;
         const data = {customer, bookingDate, roomType, guests};
+
+        if (user._id) {
+            swipeData = {
+                customerId: user._id,
+                total: total
+            }
+        } else {
+            swipeData = {
+                customer: booking.customer,
+                total: total
+            }
+        }
+
+        // const paymentConfirmation = await paySwipe(swipeData);
+
+        // console.log(paymentConfirmation);
 
         const bookingConfirmation = await confirmBooking(data);
 
         if (bookingConfirmation.error) {
 
-            throw bookingConfirmation.error;
+            checkoutError = bookingConfirmation.error
+            setHasError(true)
         }
 
-        setBookingConfirmedDetails(bookingConfirmation)
+        setBookingConfirmedDetails(bookingConfirmation);
 
         console.log(bookingConfirmation)
         
@@ -49,6 +74,7 @@ const BookingCheckoutForm = () => {
             <form onSubmit={handleSubmit}>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-10 col-lg-8 p-3 border border-info">
+                        {hasError ? <ErrorMessage error={checkoutError} /> : ''}
                         <h3 className="font-weight-bold my-3">Personal Information:</h3>
                         <div className="form-group">
                             <label htmlFor="firstname">First Name:</label>
@@ -75,7 +101,7 @@ const BookingCheckoutForm = () => {
                             no show and early departure.
                         </p>
                         <p className="font-weight-bold">Guarantee:</p>
-                        <p>A 10% downpayment is required to guarantee booking. Full payment shall be settled upon check-in.</p>
+                        <p>A 10% downpayment is required to guarantee booking (Pay with <strong>Stripe</strong> is required). Full payment shall be settled upon check-in.</p>
                         <div className="form-group mt-3">
                             <div className="form-check">
                                 <input onChange={handleCheckboxChange} className="form-check-input " type="checkbox" value="" id="policiesAgree" required />

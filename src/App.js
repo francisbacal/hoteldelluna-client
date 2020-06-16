@@ -6,14 +6,16 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Book from './components/Book';
 import Login from './components/Login';
-// import Dashboard from './components/Dashboard';
 import DashboardAdmin from './components/DashboardAdmin';
 import PrivateRoute from './components/PrivateRoute';
 import {loginResponseState} from './atoms/UserState';
-import Unauthorized from './components/errorPages/Unauthorized';
 import { useRecoilState } from 'recoil';
 import history from './components/history';
 import Register from './components/Register'
+import Unauthorized from './components/errorPages/Unauthorized';
+import Page404 from './components/errorPages/Page404';
+import NotFound from './components/errorPages/NotFound';
+
 
 
 function App() {
@@ -31,23 +33,16 @@ function App() {
     <Router history={history}>
         <div className="App">
             <Navbar />
-            {/* <Sidebar /> */}
             <Switch>
-                <Route exact path='/'>
-                    <Home />
-                </Route>
-                <Route exact path='/book'>
-                    <Book />
-                </Route>
-                <Route exact path='/login'>
-                    <Login />
-                </Route>
-                <Route exact path='/register'>
-                    <Register />
-                </Route>
-                <PrivateRoute path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} />
+                <Route exact path='/' component={Home} />
+                <Route exact path='/book' component={Book} />
+                <Route exact path='/login' component={Login}/>
+                <Route exact path='/register' component={Register}/>
                 <Route exact path='/unauthorized' component={Unauthorized} />
-                <Route exact path='/unauthorized' component={Unauthorized} />
+                <Route path="/dashboard" component={DashboardAdmin} />
+                {/* <PrivateRoute path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} /> */}
+                <Route path="/404" component={Page404} />
+                <Route component={NotFound} />
             </Switch>
         </div>
     </Router>

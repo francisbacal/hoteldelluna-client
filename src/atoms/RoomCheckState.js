@@ -20,8 +20,6 @@ const checkedRoomsState = selector({
     key: 'getCheckedRooms',
     get: async ({get}) => {
         let {startDate, endDate, guests} = get(roomCheckState)
-        
-        console.log('state end:',endDate)
 
         const response = await checkRooms(startDate, endDate, guests);
 

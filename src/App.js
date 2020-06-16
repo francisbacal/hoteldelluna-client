@@ -15,6 +15,7 @@ import Register from './components/Register'
 import Unauthorized from './components/errorPages/Unauthorized';
 import Page404 from './components/errorPages/Page404';
 import NotFound from './components/errorPages/NotFound';
+import BookingTransaction from './components/helpers/BookingTransaction';
 
 
 
@@ -36,6 +37,7 @@ function App() {
             <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path='/book' component={Book} />
+                <Route exact path='/book/transaction' component={BookingTransaction} />
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/unauthorized' component={Unauthorized} />

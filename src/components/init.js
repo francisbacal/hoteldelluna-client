@@ -8,6 +8,8 @@ const baseURL = "http://localhost:5000"; //change after
 
 const api = axios.create({baseURL: baseURL})
 
+const token = localStorage.getItem('hdlToken')
+api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
 export function setToken(token) {
     if (token) {

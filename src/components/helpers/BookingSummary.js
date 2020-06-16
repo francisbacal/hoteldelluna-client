@@ -7,8 +7,13 @@ import { useRecoilValue } from 'recoil';
 
 const BookingSummary = () => {
 
-    const url = "http://localhost:5000/public/images/";
+    const url = "http://hoteldellunaserver.herokuapp.com/public/images/";
     const bookingSummary = useRecoilValue(bookingState)
+
+    const deposit =  new Intl.NumberFormat('en-US', { 
+        currency: 'USD',
+        style: 'decimal'
+    }).format(bookingSummary.total.toString().replace(/[^\d.]/g, '') * 0.10);
 
     
 
@@ -36,7 +41,12 @@ const BookingSummary = () => {
                     <p>
                         <span className="roomBook__summary__details__title">Total Price: </span>
                         <span>&nbsp;</span>
-                        <span className="roomBook__summary__details__price">&#8369; {bookingSummary.total}</span>
+                        <span className="roomBook__summary__details__price">$ {bookingSummary.total}</span>
+                    </p>
+                    <p>
+                        <span className="roomBook__summary__details__title">Please pay( </span>
+                        <span className="roomBook__summary__details__price">$ {deposit}</span>
+                        <span className="roomBook__summary__details__title"> )to confirm your reservation</span>
                     </p>
                 </div>
             </div>

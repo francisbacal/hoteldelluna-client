@@ -42,6 +42,9 @@ $container-max-widths: (
   xxl: 1610px
 );
 
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     height: 100% !important;
@@ -314,6 +317,9 @@ body {
 }
 
 .mh-db {
+    min-height: calc(100vh - 80px);
+}
+.transactionContainer {
     min-height: calc(100vh - 80px);
 }
 

@@ -71,7 +71,7 @@ const Login = () => {
                                         <input onChange={handleChange} type="password" className="form-control" name="password" id="password" />
                                     </div>
                                     {!isLoading ?
-                                    <button className="btn btn-secondary text-warning mt-2">Register</button>
+                                    <button className="btn btn-secondary text-warning mt-2">Login</button>
                                     :
                                     <button class="btn btn-secondary text-warning mt-2" type="button" disabled>
                                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>

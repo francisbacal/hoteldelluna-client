@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {bookingState, agreeTerms, bookingConfirmedDetailsState} from './../../atoms/BookingState';
 import {userState} from './../../atoms/UserState';
 import {confirmBooking, paySwipe} from './../../api/confirmBooking';
 import ErrorMessage from './ErrorMessage';
+import history from '../history';
 
 
 const BookingCheckoutForm = () => {
@@ -12,8 +13,9 @@ const BookingCheckoutForm = () => {
     const [agreeToTerms, setAgreeToTerms] = useRecoilState(agreeTerms);
     const user = useRecoilValue(userState)
     const [hasError, setHasError] = useState(false);
-
-    let checkoutError;
+    const [checkoutError, setCheckoutError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const errorRef = useRef(null)
 
     const handleChange = (e) => {
         setBooking({
@@ -32,48 +34,52 @@ const BookingCheckoutForm = () => {
         })
     }
 
+    const scrollToErr = (ref) => window.scrollTo(0, ref.current.offsetTop)
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('submit init')
-        let swipeData;
+        setIsLoading(true)
+        setHasError(false)
+
         let {customer, bookingDate, roomType, guests, total} = booking;
-        const data = {customer, bookingDate, roomType, guests};
+        let data = {customer, bookingDate, roomType, guests};
+
+        total = total.replace(/[^\d.]/g, '');
+
+        data.total = total
 
         if (user._id) {
-            swipeData = {
-                customerId: user._id,
-                total: total
-            }
-        } else {
-            swipeData = {
-                customer: booking.customer,
-                total: total
-            }
+            data.customerId = user._id
         }
-
-        // const paymentConfirmation = await paySwipe(swipeData);
-
-        // console.log(paymentConfirmation);
 
         const bookingConfirmation = await confirmBooking(data);
 
-        if (bookingConfirmation.error) {
+        console.log(bookingConfirmation)
 
-            checkoutError = bookingConfirmation.error
-            setHasError(true)
+        if (bookingConfirmation.data) {
+
+            if (bookingConfirmation.data.error.email) {
+                setCheckoutError(bookingConfirmation.data.error.email+'. Please log in to continue')
+            } else {
+                setCheckoutError(bookingConfirmation.data.error)
+            }
+
+            setHasError(true);
+            scrollToErr(errorRef);
         }
 
         setBookingConfirmedDetails(bookingConfirmation);
+        setIsLoading(false)
+        setBooking({...booking, bookingSuccess: true, bookingRoomDone:false, bookingCustomerInfoDone: true})
+        history.push('/book/transaction')
 
-        console.log(bookingConfirmation)
-        
     }
 
     return(
         <div className="container-fluid checkout">
             <form onSubmit={handleSubmit}>
                 <div className="row justify-content-center">
-                    <div className="col-12 col-md-10 col-lg-8 p-3 border border-info">
+                    <div ref={errorRef} className="col-12 col-md-10 col-lg-8 p-3 border border-info">
                         {hasError ? <ErrorMessage error={checkoutError} /> : ''}
                         <h3 className="font-weight-bold my-3">Personal Information:</h3>
                         <div className="form-group">
@@ -87,6 +93,7 @@ const BookingCheckoutForm = () => {
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
                             <input onChange={handleChange} type="email" name="email" id="email" className="form-control" required />
+                            <small>*automatic account will be created using this email for new users to use Swipe payment</small>
                         </div>
                     </div>
                 </div>
@@ -116,7 +123,14 @@ const BookingCheckoutForm = () => {
                     </div>
                 </div>
                 <div className="row justify-content-center mt-3">
+                    {!isLoading ?
                     <button className="btn btn-primary">CONFIRM RESERVATION</button>
+                    :
+                    <button class="btn btn-secondary text-warning mt-2" type="button" disabled>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                    </button>
+                    }
                 </div>
             </form>
         </div>

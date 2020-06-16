@@ -60,9 +60,17 @@ const BookingChooseRoom = () => {
     }
 
     const handleChangeDate = ({startDate, endDate}) => {
+        let bookingDate = moment(startDate, "MM-DD-YYYY").set({hour:14,minute:0,second:0,millisecond:0})
+        let today = moment()
 
+        if (today.isAfter(bookingDate)) {
+            setValidation({hasError: true, error: 'Sorry you can not checkin after 2 P.M. today'})
+            return
+        }
+    
         if (startDate.isAfter(bookDate.endDate)) {
-            setValidation({hasError: true, error: 'Date should not be after Checkin date'})
+            setFocus( { focusedInput: null })
+            setValidation({hasError: true, error: 'Check-in date should not be after Check-out date'})
             setBooking({
                 ...booking,
                 bookingDate: {
@@ -87,14 +95,13 @@ const BookingChooseRoom = () => {
 
     }
 
-
     switch (checkedRooms.state) {
 
         case 'hasValue':
             const checkedRoomsList = checkedRooms.contents.map(room => {
                 let img = room.roomType.images[1].name
-                let price = new Intl.NumberFormat('tl-PH', { 
-                    currency: 'PHP',
+                let price = new Intl.NumberFormat('en-US', { 
+                    currency: 'USD',
                     style: 'decimal'
                 }).format(room.roomType.price);
                 return(
@@ -106,7 +113,7 @@ const BookingChooseRoom = () => {
                             <div className="col p-2 border-top border-bottom border-info">
                                 <h2>{room.roomType.name}</h2>
                                 <p>{room.roomType.description}</p>
-                                <p className="roomBook__rooms__list__price">&#8369;{price}</p>
+                                <p className="roomBook__rooms__list__price">${price}</p>
                                 <form onSubmit={handleSelect}>
                                     <input type="hidden" name="room" value={room.roomType.name} />
                                     <input type="hidden" name="total" value={room.roomType.price} />
@@ -171,10 +178,10 @@ const BookingChooseRoom = () => {
         case 'hasError':
 
             // throw checkedRooms.contents
-            console.log(checkedRooms.contents)
+            
             return(
                 <div className="container-fluid my-4">
-                    {validation.hasError ? <ErrorMessage error={validation.error} /> : ''}
+                    <ErrorMessage error={checkedRooms.contents.response.data.error} />
                     <div className="row align-items-center">
                         <DateRangePicker
                             startDate={booking.bookingDate.start}

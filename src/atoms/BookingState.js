@@ -54,22 +54,29 @@ const roomTypesState = atom({
     default: {}
 })
 
+const typesState = atom({
+    key: 'typesState',
+    default: []
+})
+
 const bookingToEditState = atom({
     key: 'bookingToEditState',
     default: {}
 })
 
 
-const editBookingState = selector({
+const editBookingState = atom({
     key: 'editBookingState',
-    get: async ({get}) => {
-        let id = get(bookingToEditState)
-
-        const response = await getBooking(id);
-
-        return response
+    default: {
+        bookingDate: {
+            start: null,
+            end: null
+        },
+        guests: null,
+        roomType: null,
+        total: 0,
     }
 })
 
 
-export {bookingState, agreeTerms, bookingConfirmedDetailsState, allBookingsState, roomTypesState, bookingToEditState, editBookingState}
+export {bookingState, agreeTerms, bookingConfirmedDetailsState, allBookingsState, bookingToEditState, roomTypesState, editBookingState, typesState}

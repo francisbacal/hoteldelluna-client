@@ -8,6 +8,6 @@ export async function paySwipe(swipeData) {
 
 
 export async function confirmBooking(booking) {
-    let response = await api.post('/bookings/', booking).then(res=> res.data)
+    let response = await api.post('/bookings/', booking).then(res=> res.data).catch(err => err.response)
     return response
 }

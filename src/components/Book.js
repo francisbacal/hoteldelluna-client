@@ -8,7 +8,7 @@ import BookingChooseRoom from './helpers/BookingChooseRoom';
 import BookingCustomerInfo from './helpers/BookingCustomerInfo';
 import BookingSummary from './helpers/BookingSummary';
 import LoadingSpinner from './helpers/LoadingSpinner';
-
+import moment from 'moment'
 import bookingBg from './../assets/images/bookingbg.png'
 
 
@@ -32,15 +32,28 @@ function Book() {
     }
 
     useEffect(()=>{
-        setHasChecked(false)
-        setBooking({
-            ...booking,
-            guests: bookDate.guests,
-            bookingDate: {
-                start: bookDate.startDate,
-                end: bookDate.endDate
-            }
-        })
+        
+        if (moment().isAfter(bookDate.startDate)) {
+            setHasChecked(false)
+            setBooking({
+                ...booking,
+                guests: bookDate.guests,
+                bookingDate: {
+                    start: bookDate.startDate,
+                    end: null
+                }
+            })
+        } else {
+            setHasChecked(false)
+            setBooking({
+                ...booking,
+                guests: bookDate.guests,
+                bookingDate: {
+                    start: bookDate.startDate,
+                    end: bookDate.endDate
+                }
+            })
+        }
     // eslint-disable-next-line
     },[])
 

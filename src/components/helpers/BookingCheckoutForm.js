@@ -41,20 +41,38 @@ const BookingCheckoutForm = () => {
         setIsLoading(true)
         setHasError(false)
 
-        let {customer, bookingDate, roomType, guests, total} = booking;
-        let data = {customer, bookingDate, roomType, guests};
-
-        total = total.replace(/[^\d.]/g, '');
-
-        data.total = total
+        let data= {};
 
         if (user._id) {
+
             data.customerId = user._id
+            data.customer = {
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email
+            }
+
+            data.bookingDate = booking.bookingDate
+            data.roomType = booking.roomType
+            data.guests = booking.guests
+            data.total = booking.total.replace(/[^\d.]/g, '')
+
+            console.log(data)
+            
+        } else {
+
+            let {customer, bookingDate, roomType, guests, total} = booking;
+            data = {...data, customer, bookingDate, roomType, guests};
+
+            total = total.replace(/[^\d.]/g, '');
+
+            data.total = total
         }
 
-        const bookingConfirmation = await confirmBooking(data);
 
-        console.log(bookingConfirmation)
+        
+
+        const bookingConfirmation = await confirmBooking(data);
 
         if (bookingConfirmation.data) {
 
@@ -66,12 +84,16 @@ const BookingCheckoutForm = () => {
 
             setHasError(true);
             scrollToErr(errorRef);
-        }
+            setIsLoading(false)
 
-        setBookingConfirmedDetails(bookingConfirmation);
-        setIsLoading(false)
-        setBooking({...booking, bookingSuccess: true, bookingRoomDone:false, bookingCustomerInfoDone: true})
-        history.push('/book/transaction')
+        } else {
+
+            setBookingConfirmedDetails(bookingConfirmation);
+            setIsLoading(false)
+            setBooking({...booking, bookingSuccess: true, bookingRoomDone:false, bookingCustomerInfoDone: true})
+            history.push('/book/transaction')
+
+        }
 
     }
 
@@ -81,20 +103,24 @@ const BookingCheckoutForm = () => {
                 <div className="row justify-content-center">
                     <div ref={errorRef} className="col-12 col-md-10 col-lg-8 p-3 border border-info">
                         {hasError ? <ErrorMessage error={checkoutError} /> : ''}
-                        <h3 className="font-weight-bold my-3">Personal Information:</h3>
-                        <div className="form-group">
-                            <label htmlFor="firstname">First Name:</label>
-                            <input onChange={handleChange} type="text" name="firstname" id="firstname" className="form-control" required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="lastname">Last Name:</label>
-                            <input onChange={handleChange} type="text" name="lastname" id="lastname" className="form-control" required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email:</label>
-                            <input onChange={handleChange} type="email" name="email" id="email" className="form-control" required />
-                            <small>*automatic account will be created using this email for new users to use Swipe payment</small>
-                        </div>
+                        {(user._id !== null) ? <h3>Logged in as {user._firstname} {user.lastname}</h3> :
+                        <>
+                            <h3 className="font-weight-bold my-3">Personal Information:</h3>
+                            <div className="form-group">
+                                <label htmlFor="firstname">First Name:</label>
+                                <input onChange={handleChange} type="text" name="firstname" id="firstname" className="form-control" required />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="lastname">Last Name:</label>
+                                <input onChange={handleChange} type="text" name="lastname" id="lastname" className="form-control" required />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email:</label>
+                                <input onChange={handleChange} type="email" name="email" id="email" className="form-control" required />
+                                <small>*automatic account will be created using this email for new users to use Swipe payment</small>
+                            </div>
+                        </>
+                        }
                     </div>
                 </div>
                 <div className="row mt-3 justify-content-center">

@@ -32,6 +32,20 @@ const DashboardEditRoom = () => {
         getData()
     }, [])
 
+    useEffect(()=> {
+        const getData = async () => {
+            setIsFetching(true)
+            let roomTypes = await getRoomTypes();
+            let room = await getRoom(id)
+
+            setRoomTypesState(roomTypes)
+            setRoomToEdit(room)
+            
+            setIsFetching(false)
+        }
+        getData() 
+    },[resfreshRoom])
+
     const fallback = () => {
         return (
             <div className="container hero">

@@ -24,20 +24,28 @@ const DashboardEditBooking = () => {
     let { id } = useParams();
 
     useEffect(() => {
-        setIsFetching(true)
         setError({
             isError: false,
             message: null
         })
         let getData = async () => {
+            setIsFetching(true)
 
-            const booking = await getBooking(id)
-            let start = moment(booking.bookingDate.start).format()
-            let end = moment(booking.bookingDate.end).format()
-            setUpdatedBooking({booking, bookingDate: {
-                start: start,
-                end: end
-            }})
+            let time = 14
+
+            const booking = await getBooking(id);
+            let start = moment(booking.bookingDate.start).set("hour", time).format();
+            let end = moment(booking.bookingDate.end).format();
+
+            setUpdatedBooking(booking)
+            setUpdatedBooking({
+                booking: {
+                    ...booking,
+                    bookingDate: {
+                        start: start,
+                        end: end
+                    }
+                 }})
 
             const typesData = await checkRooms(booking.bookingDate.start, booking.bookingDate.end, booking.guests).catch(error => error.response)
             
@@ -59,14 +67,13 @@ const DashboardEditBooking = () => {
     }, [])
     return (
         <div className="col bg-white mh-db">
-            
             <div className="row justify-content-center align-items-center">
                 <div className="col-12 dbBookings">
                     <h1 className='dbBookings__title'>Booking - Edit</h1>
                 </div>
             </div>
             {error.isError ? <ErrorMessage error={error.message} /> : '' }
-            {isFetching ? <LoadingSpinner/> : <DashboardEditBookingForm/>}
+            {isFetching ? <LoadingSpinner /> : <DashboardEditBookingForm/>}
         </div>
     )
 }

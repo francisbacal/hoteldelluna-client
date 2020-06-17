@@ -13,3 +13,9 @@ export async function getBooking(id) {
     
     return response;
 }
+export async function updateBookingAPI(id, data) {
+   
+    let response =  await api.put(`/bookings/${id}`, data).then(res=> res.data)
+    
+    return response;
+}

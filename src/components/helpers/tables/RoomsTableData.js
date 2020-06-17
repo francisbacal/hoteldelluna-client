@@ -19,7 +19,6 @@ const RoomsTableData = () => {
     }, [])
 
     const deleteApiCall = async (id) => {
-        console.log('delete', id)
         setRoomState({ delete: id })
     }
 

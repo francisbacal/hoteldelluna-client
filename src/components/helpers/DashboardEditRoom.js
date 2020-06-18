@@ -70,6 +70,11 @@ const DashboardEditRoom = () => {
     const roomTypesOptions = roomTypesState.map(roomType => {
         return <option value={roomType._id} key={roomType._id}>{roomType.name}</option>
     })
+
+    function timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 

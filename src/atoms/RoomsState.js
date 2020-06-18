@@ -97,7 +97,6 @@ const allRoomsState = selector({
             response = await getRooms()
 
         } else {
-
             response = await getRooms()
         }
 

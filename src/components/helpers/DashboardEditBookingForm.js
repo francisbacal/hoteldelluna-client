@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-dates';
 import { useRecoilState } from 'recoil';
-import { typesState, editBookingState } from './../../atoms/BookingState'
+import { typesState, editBookingState, editBookingRefreshState } from './../../atoms/BookingState'
 import moment from 'moment'
 import ErrorMessage from './ErrorMessage';
 import SuccessMessage from './SuccessMessage';
 import {checkRooms} from './../../api/checkRooms'
 import LoadingSpinner from './LoadingSpinner';
 import { updateBookingAPI } from './../../api/bookings';
-import history from './../history'
+import { refreshRoomState } from './../../atoms/RoomsState';
 
 
 
@@ -16,6 +16,8 @@ const DashboardEditBookingForm = () => {
 
     let [roomTypes, setRoomTypes] = useRecoilState(typesState);
     let [updatedBooking, setUpdatedBooking] = useRecoilState(editBookingState);
+    let [bookingRefresh, setBookingRefresh] = useRecoilState(editBookingRefreshState);
+    const [resfreshRoom, setRefreshRoom] = useRecoilState(refreshRoomState)
     let [error, setError] = useState({
         hasError: false,
         message: null
@@ -88,6 +90,8 @@ const DashboardEditBookingForm = () => {
             updatedBooking.booking.guests).catch(error=>error.response)
 
         setRoomTypes(rooms)
+
+        setBookingRefresh({refresh: true})
         setIsLoading(false)
         
     }
@@ -116,6 +120,7 @@ const DashboardEditBookingForm = () => {
         }
 
         const booking = await updateBookingAPI(data._id, data)
+        console.log(booking)
         setIsLoading(false)
 
         if (booking != undefined || !booking.error) {
@@ -153,6 +158,7 @@ const DashboardEditBookingForm = () => {
 
     return (
         <>
+            {console.log('updatedVooking',updatedBooking)}
             {(!updatedBooking.booking) ? <LoadingSpinner /> :
             <>
             <div className="row justify-content-center">
@@ -211,11 +217,11 @@ const DashboardEditBookingForm = () => {
                             </select>
                         </div>
                         <div className="form-check form-check-inline dbBookings__edit">
-                            <input defaultChecked={updatedBooking.hasEnded} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="hasEnded" name="hasEnded" />
+                            <input defaultChecked={updatedBooking.booking.hasEnded} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="hasEnded" name="hasEnded" />
                             <label className="form-check-label" htmlFor="hasEnded">Booking Ended</label>
                         </div>
                         <div className="form-check form-check-inline dbBookings__edit">
-                            <input defaultChecked={updatedBooking.isCancelled} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="isCancelled" name="isCancelled" />
+                            <input defaultChecked={updatedBooking.booking.isCancelled} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="isCancelled" name="isCancelled" />
                             <label className="form-check-label" htmlFor="isCancelled">Booking Cancelled</label>
                         </div>
                         <div className="col my-3">

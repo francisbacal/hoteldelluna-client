@@ -8,6 +8,10 @@ const baseURL = "https://hoteldellunaserver.herokuapp.com"; //change after
 
 const api = axios.create({baseURL: baseURL})
 
+const token = localStorage.getItem('hdlToken');
+
+api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
 export function setToken(token) {
     if (token) {
         localStorage.setItem('hdlToken', token)

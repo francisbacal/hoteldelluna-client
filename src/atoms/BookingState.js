@@ -35,17 +35,30 @@ const bookingConfirmedDetailsState = atom({
     key: "bookingConfirmedDetailsState",
     default: {}
 })
+const editBookingRefreshState = atom({
+    key: "editBookingRefreshState",
+    default: {
+        refresh: null 
+    }
+})
 
 const allBookingsState = selector({
     key: 'allBookingsState',
     get: async ({get}) => {
-        const response = await getBookings()
-        
-        if (response.error) {
-            return response
-        } else {
-            return response
+
+        const state = get(editBookingRefreshState);
+        let response;
+
+        if (state.refresh === null || state.refresh === true) {
+            response = await getBookings()
+            
+            if (response.error) {
+                return response.error
+            } else {
+                return response
+            }
         }
+        
     }
 })
 
@@ -79,4 +92,4 @@ const editBookingState = atom({
 })
 
 
-export {bookingState, agreeTerms, bookingConfirmedDetailsState, allBookingsState, bookingToEditState, roomTypesState, editBookingState, typesState}
+export {bookingState, agreeTerms, bookingConfirmedDetailsState, allBookingsState, bookingToEditState, roomTypesState, editBookingState, typesState, editBookingRefreshState}

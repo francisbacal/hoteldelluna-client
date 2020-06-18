@@ -41,8 +41,8 @@ function App() {
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/unauthorized' component={Unauthorized} />
-                <Route path="/dashboard" component={DashboardAdmin} />
-                {/* <PrivateRoute path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} /> */}
+                {/* <Route path="/dashboard" component={DashboardAdmin} /> */}
+                <PrivateRoute path="/dashboard" isLoggedIn={loginResponse.isLoggedIn} handleLogout={handleLogout} component={DashboardAdmin} />
                 <Route path="/404" component={Page404} />
                 <Route component={NotFound} />
             </Switch>

@@ -6,9 +6,9 @@ import axios from 'axios';
 const baseURL = "https://hoteldellunaserver.herokuapp.com"; //change after
 // const baseURL = "http://localhost:5000"; //change after
 
-const api = axios.create({baseURL: baseURL})
+// const api = axios.create({baseURL: baseURL})
 
-const token = localStorage.getItem('hdlToken');
+// const token = localStorage.getItem('hdlToken');
 
 api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 

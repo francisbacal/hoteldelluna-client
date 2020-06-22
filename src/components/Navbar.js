@@ -5,12 +5,17 @@ import { Link, NavLink } from 'react-router-dom';
 import { userState, loginResponseState } from './../atoms/UserState';
 import { useRecoilState } from 'recoil';
 import { setToken } from './init';
+import { menuState, disabledState } from './../atoms/MenuState';
 import history from './history';
 import Menu from './Menu';
+
+
 // eslint-disable-next-line
 const Navbar = () => {
-    const [userDetails, setUserDetails] = useRecoilState(userState)
-    const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState)
+    const [menu, setMenu] = useRecoilState(menuState);
+    const [isDisabled, setIsDisabled] = useRecoilState(disabledState);
+    const [userDetails, setUserDetails] = useRecoilState(userState);
+    const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
 
     const handleLogout = (e) => {
         e.preventDefault()
@@ -25,38 +30,36 @@ const Navbar = () => {
         history.push('/')
     }
 
-    return (
-        // <nav className="navbar fixed-top navbar-expand-lg navbar-dark navbar-hdl">
-        //     <Link className="navbar-brand" to="/"><img alt="Hotel Del Luna" src={brand} width="50%" /></Link>
-        //     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        //         <span className="navbar-toggler-icon"></span>
-        //     </button>
+    const handleMenu = () => {
+        disableMenu();
+        if (menu.initial === false ) {
+            setMenu({
+                initial: null,
+                clicked: true,
+                menuName: "Close"
+            })
+        } else if (menu.clicked === true) {
+            setMenu({
+                clicked: !menu.clicked,
+                menuName: "Menu"
+            })
+        } else if (menu.clicked === false) {
+            setMenu({
+                clicked: !menu.clicked,
+                menuName: "Close"
+            })
+        }
+    }
 
-        //      <div className="collapse navbar-collapse ml-auto" id="navbarNav">
-        //         <ul className="navbar-nav">
-        //             <li className="nav-item">
-        //                 <NavLink className="nav-link" to="/">Home</NavLink>
-        //             </li>
-        //             <li className="nav-item">
-        //                 <NavLink className="nav-link" to="/book">Book</NavLink>
-        //             </li>
-        //             {loginResponse.isLoggedIn ? 
-        //                 <li className="nav-item">
-        //                     <NavLink to="#" className="nav-link" onClick={handleLogout}>Logout</NavLink>
-        //                 </li>
-        //             :
-        //             <>
-        //                 <li className="nav-item">
-        //                     <NavLink className="nav-link" to="/login">Login</NavLink>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <NavLink className="nav-link" to="/register">Register</NavLink>
-        //                 </li>
-        //             </>
-        //             }
-        //         </ul>
-        //     </div>
-        // </nav>
+    //Check if menu should be disabled
+    const disableMenu = () => {
+        setIsDisabled(!isDisabled);
+        setTimeout(()=>{
+            setIsDisabled(false)
+        },1200)
+    }
+
+    return (
         <nav className="navbar-hdl">
             <div className="navbar-hdl__wrapper">
                 <ul className="navbar-hdl__wrapper__ul-left">
@@ -87,7 +90,7 @@ const Navbar = () => {
             </div>
             <div className="navbar-hdl__menu">
                 <div className="navbar-hdl__menu__button">
-                    <button>Menu</button>
+                    <button type="button" disabled={isDisabled} onClick={handleMenu}>Menu</button>
                 </div>
             </div>
             <Menu />

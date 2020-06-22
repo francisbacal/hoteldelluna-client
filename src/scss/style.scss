@@ -163,6 +163,9 @@ body {
                 }
             }
         }
+        @media (min-width: 576px) {  
+            display: none;
+        }
     }
 }
 .menu  {

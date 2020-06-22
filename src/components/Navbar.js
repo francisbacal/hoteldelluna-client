@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import brand from './../assets/images/hdl-brand.png'
 // eslint-disable-next-line
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import { userState, loginResponseState } from './../atoms/UserState';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { setToken } from './init';
 import { menuState, disabledState } from './../atoms/MenuState';
 import history from './history';
@@ -11,11 +11,22 @@ import Menu from './Menu';
 
 
 // eslint-disable-next-line
-const Navbar = () => {
+const Navbar = ({history}) => {
     const [menu, setMenu] = useRecoilState(menuState);
     const [isDisabled, setIsDisabled] = useRecoilState(disabledState);
+    // eslint-disable-next-line
     const [userDetails, setUserDetails] = useRecoilState(userState);
     const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
+
+    //useEffect when changing routes
+    useEffect(() => {
+        history.listen(()=> {
+            setMenu({
+                clicked: false,
+                menuName: "Menu"
+            })
+        })
+    })
 
     const handleLogout = (e) => {
         e.preventDefault()
@@ -56,46 +67,48 @@ const Navbar = () => {
         setIsDisabled(!isDisabled);
         setTimeout(()=>{
             setIsDisabled(false)
-        },1200)
+        },1000)
     }
 
     return (
-        <nav className="navbar-hdl">
-            <div className="navbar-hdl__wrapper">
-                <ul className="navbar-hdl__wrapper__ul-left">
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/">Home</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/book">Book</NavLink>
-                    </li>
-                </ul>
-                <Link className="navbar-brand" to="/"><img alt="Hotel Del Luna" src={brand} width="50%" /></Link>
-                <ul className="navbar-hdl__wrapper__ul-right">
-                    {loginResponse.isLoggedIn ?
+        <div className="navbar-container">
+            <nav className="navbar-hdl">
+                <div className="navbar-hdl__wrapper">
+                    <ul className="navbar-hdl__wrapper__ul-left">
                         <li className="nav-item">
-                            <NavLink to="#" className="nav-link" onClick={handleLogout}>Logout</NavLink>
+                            <NavLink className="nav-link" to="/">Home</NavLink>
                         </li>
-                        :
-                        <>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/book">Book</NavLink>
+                        </li>
+                    </ul>
+                    <Link className="navbar-brand" to="/"><img alt="Hotel Del Luna" src={brand} width="50%" /></Link>
+                    <ul className="navbar-hdl__wrapper__ul-right">
+                        {loginResponse.isLoggedIn ?
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/login">Login</NavLink>
+                                <NavLink to="#" className="nav-link" onClick={handleLogout}>Logout</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to="/register">Register</NavLink>
-                            </li>
-                        </>
-                    }
-                </ul>
-            </div>
-            <div className="navbar-hdl__menu">
-                <div className="navbar-hdl__menu__button">
-                    <button type="button" disabled={isDisabled} onClick={handleMenu}>Menu</button>
+                            :
+                            <>
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/login">Login</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/register">Register</NavLink>
+                                </li>
+                            </>
+                        }
+                    </ul>
                 </div>
-            </div>
-            <Menu />
-        </nav>
+                <div className="navbar-hdl__menu">
+                    <div className="navbar-hdl__menu__button">
+                        <button type="button" disabled={isDisabled} onClick={handleMenu}>{menu.menuName}</button>
+                    </div>
+                </div>
+                <Menu />
+            </nav>
+        </div>
     )
 }
 
-export default Navbar;
+export default withRouter(Navbar);

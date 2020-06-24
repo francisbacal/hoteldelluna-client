@@ -335,6 +335,33 @@ body {
         }
     }
 }
+.booking-links {
+    a {
+        color: $opal;
+        margin-left: 1rem;
+
+        &:hover {
+            color: $primary;
+            text-decoration: none;
+        }
+
+    }
+
+    
+    .active {
+        color: $primary;
+
+        &::before {
+            content: '';
+            height: 15px;
+            width: 15px;
+            margin-right: 7px;
+            background-color: $xicetic;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    }
+}
 .checkout {
     font-family: $font-family-secondary;
     text-align: left;

@@ -10,26 +10,20 @@ import BookingSummary from './helpers/BookingSummary';
 import LoadingSpinner from './helpers/LoadingSpinner';
 import moment from 'moment'
 import bookingBg from './../assets/images/bookingbg.png'
+import {Router, Route, Switch} from 'react-router-dom';
+import NotFound from './errorPages/NotFound'
+import history from './history'
+import BookingLinks from './helpers/BookingLinks';
 
 
 function Book() {
     // eslint-disable-next-line
     const [hasChecked, setHasChecked] = useRecoilState(hasCheckedState);
     const [booking, setBooking] = useRecoilState(bookingState);
+    // eslint-disable-next-line
     const [focus, setFocus] = useState({ focusedInput: null });
 
     const bookDate = useRecoilValue(roomCheckState);
-
-    const processComponent = () => {
-
-        if (!booking.bookingRoomDone) {
-            return <BookingChooseRoom />
-        } else if (!booking.bookingCustomerInfoDone) {
-            return <BookingCustomerInfo />
-        }
-
-
-    }
 
     useEffect(()=>{
         
@@ -71,7 +65,15 @@ function Book() {
                         <hr className="bg-info"/>
                         <div className="row justify-content-center">
                             <div className="col-md-8 mt-4 roomBook__rooms">
-                                {processComponent()}
+                                {/* {processComponent()} */}
+                                <Router history={history}>
+                                    <BookingLinks/>
+                                    <Switch>
+                                        <Route exact path='/book/' component={BookingChooseRoom} />
+                                        <Route exact path='/book/info' component={BookingCustomerInfo} />
+                                        <Route component={NotFound} />
+                                    </Switch>
+                                </Router>
                             </div>
                             <div className="col-md-4 pr-0 mb-5">
                                 <div className="container-fluid mt-4 sticky-top p-4 roomBook__summary">

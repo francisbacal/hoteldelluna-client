@@ -44,7 +44,6 @@ const DashboardAdmin = () => {
                             <Route path='/dashboard/roomtypes/:id' component={DashboardEditType} />
                         </React.Suspense>
                         <Route component={NotFound} />
-
                     </Switch>
                 </Router>
             </div>  

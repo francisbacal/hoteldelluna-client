@@ -6,6 +6,7 @@ const bookingState = atom({
     default: {
         nextLoading: false,
         bookingSuccess: false,
+        selectedRoom: false,
         room: null,
         roomType: null,
         guests: null,

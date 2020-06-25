@@ -28,7 +28,6 @@ const BookingChooseRoom = () => {
     });
     const today = moment()
 
-
     const guestsOptions = [
         <option value="1" key="1Adult">1 Adult/s</option>,
         <option value="2" key="2Adult">2 Adult/s</option>,
@@ -42,6 +41,7 @@ const BookingChooseRoom = () => {
 
     const handleSelect = (e) => {
         e.preventDefault();
+        
         const diff = moment(booking.bookingDate.end).diff(moment(booking.bookingDate.start))
         const numberOfNights = Math.floor(diff / (1000*3600*24));
         const totalPrice = numberOfNights * e.target.total.value;
@@ -51,12 +51,14 @@ const BookingChooseRoom = () => {
             style: 'decimal'
         }).format(totalPrice);
 
+
         setBooking({
             ...booking,
             room: e.target.room.value,
             total: currencyPrice,
             roomType: e.target.roomType.value,
             nextLoading: true,
+            selectedRoom: true
         })
 
         history.push('/book/info')
@@ -87,10 +89,19 @@ const BookingChooseRoom = () => {
         }
 
     }
-
     switch (checkedRooms.state) {
-
         case 'hasValue':
+        
+            if (booking.bookingDate.start === null || booking.bookingDate.start === null ) {
+                setBooking({
+                    ...booking,
+                    guests: bookDate.guests,
+                    bookingDate: {
+                        start: bookDate.startDate,
+                        end: bookDate.endDate
+                    }
+                })
+            }
             const checkedRoomsList = checkedRooms.contents.map(room => {
                 let img;
                 switch (room.roomType.name) {

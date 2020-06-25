@@ -16,6 +16,7 @@ import history from './history'
 import BookingLinks from './helpers/BookingLinks';
 
 
+
 function Book() {
     // eslint-disable-next-line
     const [hasChecked, setHasChecked] = useRecoilState(hasCheckedState);
@@ -65,6 +66,7 @@ function Book() {
                         </div>
                         <hr className="bg-info"/>
                         <BookingLinks/>
+
                         <div className="row justify-content-center flex-row-reverse">
                             <div className="col-md-4 pr-0 mb-5">
                                 <div className="container-fluid mt-4 sticky-top p-4 roomBook__summary">
@@ -80,7 +82,7 @@ function Book() {
                                 <Router history={history}>
                                     <Switch>
                                         <Route exact path='/book/' component={BookingChooseRoom} />
-                                        <Route exact path='/book/info' component={BookingCustomerInfo} />
+                                        <Route path='/book/info' component={BookingCustomerInfo} />
                                         <Route component={NotFound} />
                                     </Switch>
                                 </Router>

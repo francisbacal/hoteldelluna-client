@@ -41,6 +41,14 @@ const BookingCheckoutForm = () => {
         setIsLoading(true)
         setHasError(false)
 
+        if(!booking.selectedRoom) {
+            setCheckoutError("Incomplete Details. Please review your booking and try again.")
+            setHasError(true)
+            scrollToErr(errorRef);
+            setIsLoading(false)
+            return
+        }
+
         let data= {};
 
         if (user._id) {
@@ -56,21 +64,16 @@ const BookingCheckoutForm = () => {
             data.roomType = booking.roomType
             data.guests = booking.guests
             data.total = booking.total.replace(/[^\d.]/g, '')
-
-            console.log(data)
             
         } else {
 
             let {customer, bookingDate, roomType, guests, total} = booking;
             data = {...data, customer, bookingDate, roomType, guests};
-
+            console.log(total)
             total = total.replace(/[^\d.]/g, '');
 
             data.total = total
         }
-
-
-        
 
         const bookingConfirmation = await confirmBooking(data);
 
@@ -90,8 +93,8 @@ const BookingCheckoutForm = () => {
 
             setBookingConfirmedDetails(bookingConfirmation);
             setIsLoading(false)
-            setBooking({...booking, bookingSuccess: true, bookingRoomDone:false, bookingCustomerInfoDone: true})
-            history.push('/book/transaction')
+            setBooking({...booking, bookingSuccess: true})
+            history.push('/transaction')
 
         }
 

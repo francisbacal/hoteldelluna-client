@@ -8,9 +8,13 @@ import LoadingSpinner from './LoadingSpinner'
 
 import {checkedRoomsState, roomCheckState} from './../../atoms/RoomCheckState';
 import {bookingState} from './../../atoms/BookingState';
-import { useRecoilValueLoadable, useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValueLoadable, useRecoilState } from 'recoil';
 import ErrorMessage from './ErrorMessage';
+import history from './../history';
 
+import superior from "./../../assets/images/roomtypes/superior.jpg";
+import prestige from "./../../assets/images/roomtypes/prestige.jpg";
+import deluxe from "./../../assets/images/roomtypes/deluxe.jpg";
 
 const BookingChooseRoom = () => {
     
@@ -22,8 +26,8 @@ const BookingChooseRoom = () => {
         hasError: false, 
         error: null
     });
+    const today = moment()
 
-    const url = "https://hoteldellunaserver.herokuapp.com/";
 
     const guestsOptions = [
         <option value="1" key="1Adult">1 Adult/s</option>,
@@ -53,37 +57,23 @@ const BookingChooseRoom = () => {
             total: currencyPrice,
             roomType: e.target.roomType.value,
             nextLoading: true,
-            bookingRoomDone: true,
-            bookingCustomerInfoDone: false
         })
+
+        history.push('/book/info')
 
     }
 
     const handleChangeDate = ({startDate, endDate}) => {
         let bookingDate = moment(startDate, "MM-DD-YYYY").set({hour:14,minute:0,second:0,millisecond:0})
-        let today = moment()
 
         if (today.isAfter(bookingDate)) {
             setValidation({hasError: true, error: 'Sorry you can not checkin after 2 P.M. today'})
             return
-        }
-    
-        if (startDate.isAfter(bookDate.endDate)) {
-            setFocus( { focusedInput: null })
-            setValidation({hasError: true, error: 'Check-in date should not be after Check-out date'})
-            setBooking({
-                ...booking,
-                bookingDate: {
-                    ...booking.bookingDate,
-                    start: bookDate.startDate
-                } 
-            })
-            return 
         } else {
-            setValidation({...validation, hasError: false})
+
+            setValidation({hasError: false, error: null})
+
         }
-        
-        
         setBooking({
             ...booking,
             bookingDate: {
@@ -91,7 +81,10 @@ const BookingChooseRoom = () => {
                 end: endDate
             }
         })
-        setBookDate({...bookDate, startDate, endDate})
+
+        if (focus.focusedInput === 'endDate') {
+            setBookDate({...bookDate, startDate, endDate})
+        }
 
     }
 
@@ -99,7 +92,20 @@ const BookingChooseRoom = () => {
 
         case 'hasValue':
             const checkedRoomsList = checkedRooms.contents.map(room => {
-                let img = room.roomType.images[1].name
+                let img;
+                switch (room.roomType.name) {
+                    case ('Deluxe'):
+                        img = deluxe;
+                        break;
+                    
+                    case ('Prestige'):
+                        img = prestige;
+                        break;
+
+                    case ('Superior'):
+                        img = superior;
+                        break;
+                }
                 let price = new Intl.NumberFormat('en-US', { 
                     currency: 'USD',
                     style: 'decimal'
@@ -108,7 +114,7 @@ const BookingChooseRoom = () => {
                     <div className="container-fluid my-3" key={room._id}>
                         <div className="row">
                             <div className="col-auto mr-3">
-                                <img src={url+img} alt={room.roomType.name}/>
+                                <img src={img} alt={room.roomType.name}/>
                             </div>
                             <div className="col p-2 border-top border-bottom border-info">
                                 <h2>{room.roomType.name}</h2>
@@ -147,7 +153,7 @@ const BookingChooseRoom = () => {
                             readOnly={true}
                             small={true}  
                         />
-                        <div className="col-auto">
+                        <div className="col-auto selectGuests">
                             <select onChange={(e)=>setBooking({...booking, guests: e.target.value})} className="custom-select-sm w-auto" value={booking.guests}>
                                 {guestsOptions.map(option => {return option})}
                             </select>

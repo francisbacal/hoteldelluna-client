@@ -2,11 +2,9 @@ import {atom, selector} from 'recoil';
 import {getBookings, getBooking} from '../api/bookings'
 
 const bookingState = atom({
-    key: 'BookingState',
+    key: 'bookingState',
     default: {
         nextLoading: false,
-        bookingRoomDone: false,
-        bookingCustomerInfoDone: true,
         bookingSuccess: false,
         room: null,
         roomType: null,

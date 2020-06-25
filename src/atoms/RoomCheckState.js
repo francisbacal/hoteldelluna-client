@@ -19,9 +19,18 @@ const hasCheckedState = atom ({
 const checkedRoomsState = selector({
     key: 'getCheckedRooms',
     get: async ({get}) => {
+        let response;
         let {startDate, endDate, guests} = get(roomCheckState)
+        const checkin = moment(startDate, "MM-DD-YYYY").set({hour:14,minute:0,second:0,millisecond:0});
+        const today = moment()
 
-        const response = await checkRooms(startDate, endDate, guests);
+        if (today.isAfter(checkin)) {
+            startDate = checkin.add(1, 'day');
+            response = await checkRooms(startDate, endDate, guests);
+        } else {
+            response = await checkRooms(startDate, endDate, guests);
+        }
+
 
         return response
     }

@@ -325,7 +325,13 @@ body {
             color: $xicetic;
 
             img {
-                width: calc(25vw);
+                width: 100%;
+                margin-bottom: 1rem;
+
+                @media (min-width: 576px) {  
+                    width: 25vw;
+                    margin-bottom: 0;
+                }
             }
 
             &__price {
@@ -338,7 +344,8 @@ body {
 .booking-links {
     a {
         color: $opal;
-        margin-left: 1rem;
+        margin-left: 2.4rem;
+        display: block;
 
         &:hover {
             color: $primary;
@@ -350,6 +357,7 @@ body {
     
     .active {
         color: $primary;
+        margin-left: 1rem;
 
         &::before {
             content: '';
@@ -474,6 +482,21 @@ body {
 }
 .pickerSmall {
     font-size: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.selectGuests {
+    margin-top: 1rem;
+    margin-left: -14px;
+
+    select {
+        border-color: $primary;
+    }
+
+    @media (min-width: 576px) {  
+        margin-top: 0;
+        margin-left: 0;
+    }
 }
 
 .addType {

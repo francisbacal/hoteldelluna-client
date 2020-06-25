@@ -22,8 +22,12 @@ const BookingRoomTypes = () => {
         hasError: false, 
         error: null
     });
+    const [tempDate, setTempDate] = useState({
+        startDate: null,
+        endDate: null
+    })
 
-    const url = "https://hoteldellunaserver.herokuapp.com/";
+    const url = "https://hoteldelluna-server.herokuapp.com/";
 
     const guestsOptions = [
         <option value="1" key="1Adult">1 Adult/s</option>,
@@ -168,8 +172,6 @@ const BookingRoomTypes = () => {
 
         case 'hasError':
 
-            // throw checkedRooms.contents
-            console.log(checkedRooms.contents)
             return(
                 <div className="container-fluid my-4">
                     <div className="row align-items-center">

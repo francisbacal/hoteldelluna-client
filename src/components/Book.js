@@ -23,18 +23,19 @@ function Book() {
     // eslint-disable-next-line
     const [focus, setFocus] = useState({ focusedInput: null });
 
-    const bookDate = useRecoilValue(roomCheckState);
+    const [bookDate, setBookDate] = useRecoilState(roomCheckState);
 
     useEffect(()=>{
-        
-        if (moment().isAfter(bookDate.startDate)) {
+        const checkin = moment(bookDate.startDate, "MM-DD-YYYY").set({hour:14,minute:0,second:0,millisecond:0});
+        if (moment().isAfter(checkin)) {
             setHasChecked(false)
+            setBookDate({...bookDate, startDate: checkin.add(1, 'day')});
             setBooking({
                 ...booking,
                 guests: bookDate.guests,
                 bookingDate: {
-                    start: bookDate.startDate,
-                    end: null
+                    start: moment(bookDate.startDate).add(1, 'day'),
+                    end: moment(bookDate.startDate).add(3, 'day')
                 }
             })
         } else {
@@ -63,18 +64,8 @@ function Book() {
                             </div>
                         </div>
                         <hr className="bg-info"/>
-                        <div className="row justify-content-center">
-                            <div className="col-md-8 mt-4 roomBook__rooms">
-                                {/* {processComponent()} */}
-                                <Router history={history}>
-                                    <BookingLinks/>
-                                    <Switch>
-                                        <Route exact path='/book/' component={BookingChooseRoom} />
-                                        <Route exact path='/book/info' component={BookingCustomerInfo} />
-                                        <Route component={NotFound} />
-                                    </Switch>
-                                </Router>
-                            </div>
+                        <BookingLinks/>
+                        <div className="row justify-content-center flex-row-reverse">
                             <div className="col-md-4 pr-0 mb-5">
                                 <div className="container-fluid mt-4 sticky-top p-4 roomBook__summary">
                                     <hr className="bg-info" />
@@ -84,6 +75,15 @@ function Book() {
                                         { booking.nextLoading ? <LoadingSpinner /> : <BookingSummary /> }
                                     </div>
                                 </div>
+                            </div>
+                            <div className="col-md-8 mt-4 roomBook__rooms">
+                                <Router history={history}>
+                                    <Switch>
+                                        <Route exact path='/book/' component={BookingChooseRoom} />
+                                        <Route exact path='/book/info' component={BookingCustomerInfo} />
+                                        <Route component={NotFound} />
+                                    </Switch>
+                                </Router>
                             </div>
                         </div>
                     </div>

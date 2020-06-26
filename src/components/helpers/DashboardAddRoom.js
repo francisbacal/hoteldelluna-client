@@ -3,9 +3,11 @@ import ErrorMessage from './ErrorMessage';
 import {getRoomTypes, addRoom} from './../../api/rooms'
 import { roomToAddState, refreshRoomState } from './../../atoms/RoomsState'
 import { useRecoilState } from 'recoil';
-import history from './../history'
+import history from './../history';
+import { toggleState } from './../../atoms/sidebarState';
 
 const DashboardAddRoom = () => {
+    const [isToggled, setIsToggled] = useRecoilState(toggleState);
     const [roomToAdd, setRoomToAdd] = useRecoilState(roomToAddState)
     const [resfreshRoom, setRefreshRoom] = useRecoilState(refreshRoomState)
     const [roomTypesState, setRoomTypesState] = useState([])
@@ -82,15 +84,15 @@ const DashboardAddRoom = () => {
     }
 
     return( 
-         <div className="col bg-white addType">
+        <div className={isToggled ? "col bg-white addType dashboard-margin--toggle" : "col bg-white addType dashboard-margin"}>
              <div className="row justify-content-center align-items-center">
                  <div className="col-12 dbBookings">
-                     <h1 className='dbBookings__title'>Room Types - Add</h1>
+                     <h1 className='dbBookings__title'>Room - Add</h1>
                  </div>
              </div>
              <div className="row justify-content-center align-items-center">      
              </div>
-             <div className="row align-items-center ml-5">
+             <div className="row align-items-center">
                 <div className="col-12 col-md-8 col-lg-4 text-secondary">
                     {addResponse.error ? <ErrorMessage error={addResponse.error} /> : ''}
                     <form onSubmit={handleSubmit}>

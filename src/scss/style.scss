@@ -137,6 +137,28 @@ body {
                     color: $font-active;
                 }
             }
+
+            &--logout {
+                position: absolute;
+                display: flex;
+                top: 50%;
+                right: 50%;
+                transform: translate(150%, -50%);
+                padding: 0;
+                list-style: none;
+
+                .nav-item .nav-link {
+                    color: $font-primary;
+    
+                    &.active {
+                        color: $font-active;
+                    }
+                }
+
+                @media (max-width: 576px) {  
+                    display: none;
+                }
+            }
             
             @media (max-width: 576px) {  
                 display: none;
@@ -173,6 +195,21 @@ body {
                 }
             }
         }
+        &__side {
+            position: absolute;
+            top: 50%;
+            left: 7px;
+            transform: translate(25%, -45%);
+    
+            &__icon {
+                background: none;
+                outline: none;
+                color: $font-primary;
+                font-size: 2rem;
+                cursor: pointer;
+            }
+        }
+        
         @media (min-width: 576px) {  
             display: none;
         }
@@ -413,11 +450,15 @@ body {
 
     &--toggle {
         width: 80px;
-        height: 100%;
+        height: auto;
         transition: all .400s ease-in-out;
+        
+        @media (max-width: 768px) {  
+            display: none;
+        }
     }
 
-    @media (max-width: 576px) {  
+    @media (max-width: 768px) {  
         display: none;
     }
 }
@@ -441,6 +482,29 @@ body {
             display: none;
         }
     }
+}
+.dashboard-margin {
+
+    @media (max-width: 768px) {
+        margin-left: 270px;
+        width: calc(100vw - 270px)!important;
+        transition: 0.2s ease-in-out;
+
+        &--toggle {
+            margin-left: 80px;
+            width: calc(100vw - 80px)!important;
+            transition: 0.2s ease-in-out;
+        }
+    }
+
+    @media (max-width: 576px) {
+        margin-left: 0;
+        &--toggle {
+            margin-left: 0;
+        }
+    }
+
+
 }
 .dashboard {
     min-height: calc(100vh - 80px) !important;

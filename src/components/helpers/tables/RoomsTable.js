@@ -16,24 +16,26 @@ const RoomsTable = () => {
     return (
         <>
         <ReactTooltip />
-        <table className="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Room Type</th>
-                    <th scope="col">Max Guests</th>
-                    <th scope="col">Bookings</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <React.Suspense fallback={fallback()}>
-                <RoomsTableData />
-            </React.Suspense>
-            </tbody>
-        </table>
+        <div className="table-responsive">
+            <table className="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Room Type</th>
+                        <th scope="col">Max Guests</th>
+                        <th scope="col">Bookings</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <React.Suspense fallback={fallback()}>
+                    <RoomsTableData />
+                </React.Suspense>
+                </tbody>
+            </table>
+        </div>
         </>
     )
 }

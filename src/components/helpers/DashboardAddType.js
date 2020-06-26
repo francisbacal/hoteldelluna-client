@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
-import { FaPlusCircle, FaExternalLinkAlt} from "react-icons/fa";
-import { Link } from 'react-router-dom';
-import {typeToAddState, refreshState} from './../../atoms/RoomsState'
+import {typeToAddState, refreshState} from './../../atoms/RoomsState';
 import { useRecoilState } from 'recoil';
-import {addRoomType} from './../../api/rooms'
-import history from './../history'
+import {addRoomType} from './../../api/rooms';
+import history from './../history';
 import ErrorMessage from './ErrorMessage';
+import { toggleState } from './../../atoms/sidebarState';
 
 const DashboardAddType = () => {
-
+    const [isToggled, setIsToggled] = useRecoilState(toggleState);
     const [typeToAdd, setTypeToAdd] = useRecoilState(typeToAddState)
     const [refreshType, setRefreshType] = useRecoilState(refreshState)
     const [addResponse, setAddResponse] = useState({
@@ -73,7 +72,7 @@ const DashboardAddType = () => {
     }
     
     return (
-        <div className="col bg-white addType">
+        <div className={isToggled ? "col bg-white addType dashboard-margin--toggle" : "col bg-white addType dashboard-margin"}>
             <div className="row justify-content-center align-items-center">
                 <div className="col-12 dbBookings">
                     <h1 className='dbBookings__title'>Room Types - Add</h1>
@@ -82,7 +81,7 @@ const DashboardAddType = () => {
             <div className="row justify-content-center align-items-center">
                     
             </div>
-            <div className="row align-items-center ml-5">
+            <div className="row align-items-center">
                 <div className="col-12 col-md-8 col-lg-4 text-secondary">
                     {addResponse.error ? <ErrorMessage error={addResponse.error} /> : ''}
                     <form onSubmit={handleSubmit}>
@@ -98,7 +97,7 @@ const DashboardAddType = () => {
                             <label for="description">Description</label>
                             <textarea onChange={handleChange} type="text" class="form-control" rows="5" id="description" />
                         </div>
-                        <div className="form-group addType">
+                        {/* <div className="form-group addType">
                             <label htmlFor="images">Images:</label>
                             <input 
                                 onChange={handleChange} 
@@ -109,7 +108,7 @@ const DashboardAddType = () => {
                                 name="images"
                             >
                             </input>
-                        </div>
+                        </div> */}
                         <button className="btn btn-primary">ADD</button>
                     </form>
                 </div>

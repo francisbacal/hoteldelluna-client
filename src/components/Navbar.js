@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import brand from './../assets/images/hdl-brand.png'
 // eslint-disable-next-line
-import { Link, NavLink, withRouter } from 'react-router-dom';
+import { Link, NavLink, withRouter, useRouteMatch } from 'react-router-dom';
 import { userState, loginResponseState } from './../atoms/UserState';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { setToken } from './init';
 import { menuState, disabledState } from './../atoms/MenuState';
-import history from './history';
 import Menu from './Menu';
+import { AiOutlineMenu} from "react-icons/ai";
+import { showState } from './../atoms/sidebarState'
 
 
 // eslint-disable-next-line
@@ -17,6 +18,7 @@ const Navbar = ({history}) => {
     // eslint-disable-next-line
     const [userDetails, setUserDetails] = useRecoilState(userState);
     const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
+    const [showSidebar, setShowSidebar] = useRecoilState(showState)
 
     //useEffect when changing routes
     useEffect(() => {
@@ -27,6 +29,8 @@ const Navbar = ({history}) => {
             })
         })
     })
+
+    let match = useRouteMatch('/dashboard')
 
     const handleLogout = (e) => {
         e.preventDefault()
@@ -61,6 +65,9 @@ const Navbar = ({history}) => {
             })
         }
     }
+    const handleShow = () => {
+        setShowSidebar(!showSidebar)
+    }
 
     //Check if menu should be disabled
     const disableMenu = () => {
@@ -76,18 +83,23 @@ const Navbar = ({history}) => {
                 <div className="navbar-hdl__wrapper">
                     <ul className="navbar-hdl__wrapper__ul-left">
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/">Home</NavLink>
+                            <NavLink className="nav-link" exact to="/">Home</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/book">Book</NavLink>
                         </li>
                     </ul>
                     <Link className="navbar-brand" to="/"><img alt="Hotel Del Luna" src={brand} width="50%" /></Link>
-                    <ul className="navbar-hdl__wrapper__ul-right">
+                    <ul className={loginResponse.isLoggedIn ? "navbar-hdl__wrapper__ul-right--logout" : "navbar-hdl__wrapper__ul-right"}>
                         {loginResponse.isLoggedIn ?
-                            <li className="nav-item">
-                                <NavLink to="#" className="nav-link" onClick={handleLogout}>Logout</NavLink>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <NavLink to="/dashboard" className="nav-link">Dashboard</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="#" className="nav-link" onClick={handleLogout}>Logout</Link>
+                                </li>
+                            </>
                             :
                             <>
                                 <li className="nav-item">
@@ -101,6 +113,12 @@ const Navbar = ({history}) => {
                     </ul>
                 </div>
                 <div className="navbar-hdl__menu">
+                    {match ?
+                    <div className="navbar-hdl__menu__side" onClick={handleShow}>
+                        {menu.clicked ? '' : <AiOutlineMenu className="navbar-hdl__menu__side__icon"/> }
+                    </div>
+                    : ''}
+                    
                     <div className="navbar-hdl__menu__button">
                         <button type="button" disabled={isDisabled} onClick={handleMenu}>{menu.menuName}</button>
                     </div>

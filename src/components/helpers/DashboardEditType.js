@@ -5,10 +5,11 @@ import history from './../history'
 import ErrorMessage from './ErrorMessage';
 import { useParams } from 'react-router-dom';
 import {getRoomType, updateRoomType} from './../../api/rooms';
+import { toggleState } from './../../atoms/sidebarState';
 import _ from 'lodash';
 
 const DashboardEditType = () => {
-
+    const [isToggled, setIsToggled] = useRecoilState(toggleState);
     const [typeToUpdate, setTypeToUpdate] = useRecoilState(typeToUpdateState)
     const [refreshType, setRefreshType] = useRecoilState(refreshState)
     const [getTypeResponse, setGetTypeResponse] = useState({
@@ -105,7 +106,7 @@ const DashboardEditType = () => {
     }
     
     return (
-        <div className="col bg-white addType">
+        <div className={isToggled ? "col bg-white addType dashboard-margin--toggle" : "col bg-white addType dashboard-margin"}>
             <div className="row justify-content-center align-items-center">
                 <div className="col-12 dbBookings">
                     <h1 className='dbBookings__title'>Room Types - Edit</h1>
@@ -114,7 +115,7 @@ const DashboardEditType = () => {
             <div className="row justify-content-center align-items-center">
                     
             </div>
-            <div className="row align-items-center ml-5">
+            <div className="row align-items-center">
                 <div className="col-12 col-md-8 col-lg-4 text-secondary">
                     {getTypeResponse.error ? <ErrorMessage error={getTypeResponse.error} /> : ''}
                     <form onSubmit={handleSubmit}>
@@ -130,7 +131,7 @@ const DashboardEditType = () => {
                             <label htmlFor="description">Description</label>
                             <textarea onChange={handleChange} type="text" className="form-control" rows="5" id="description" >{typeToUpdate.description}</textarea>
                         </div>
-                        <div className="form-group addType">
+                        {/* <div className="form-group addType">
                             <label htmlFor="images">Images:</label>
                             <input 
                                 onChange={handleChange} 
@@ -141,7 +142,7 @@ const DashboardEditType = () => {
                                 name="images"
                             >
                             </input>
-                        </div>
+                        </div> */}
                         <button className="btn btn-primary">EDIT</button>
                     </form>
                 </div>

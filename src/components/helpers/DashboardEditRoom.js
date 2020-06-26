@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import ErrorMessage from './ErrorMessage';
-import { getRoomTypes, getRoom, updateRoom } from './../../api/rooms'
-import { roomToEditState, refreshRoomState } from './../../atoms/RoomsState'
+import { getRoomTypes, getRoom, updateRoom } from './../../api/rooms';
+import { roomToEditState, refreshRoomState } from './../../atoms/RoomsState';
+import { toggleState } from './../../atoms/sidebarState';
 import { useRecoilState } from 'recoil';
-import history from './../history'
+import history from './../history';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import RoomBookingsTableData from './tables/RoomBookingsTableData';
 
 const DashboardEditRoom = () => {
-    const [roomToEdit, setRoomToEdit] = useRecoilState(roomToEditState)
-    const [resfreshRoom, setRefreshRoom] = useRecoilState(refreshRoomState)
-    const [roomTypesState, setRoomTypesState] = useState([])
-    const [isFetching, setIsFetching] = useState(true)
+    const [isToggled, setIsToggled] = useRecoilState(toggleState);
+    const [roomToEdit, setRoomToEdit] = useRecoilState(roomToEditState);
+    const [resfreshRoom, setRefreshRoom] = useRecoilState(refreshRoomState);
+    const [roomTypesState, setRoomTypesState] = useState([]);
+    const [isFetching, setIsFetching] = useState(true);
     const [addResponse, setAddResponse] = useState({
         error: null
-    })
+    });
 
     const { id } = useParams()
     useEffect(() => {
@@ -118,7 +120,7 @@ const DashboardEditRoom = () => {
     }
 
     return (
-        <div className="col bg-white addType">
+        <div className={isToggled ? "col bg-white addType dashboard-margin--toggle" : "col bg-white addType dashboard-margin"}>
             <div className="row justify-content-center align-items-center">
                 <div className="col-12 dbBookings">
                     <h1 className='dbBookings__title'>Room - Edit</h1>
@@ -126,13 +128,13 @@ const DashboardEditRoom = () => {
             </div>
             <div className="row justify-content-center align-items-center">
             </div>
-            <div className="row ml-5">
+            <div className="row">
                 <div className="col-12 col-md-8 col-lg-4 text-secondary">
                     {addResponse.error ? <ErrorMessage error={addResponse.error} /> : ''}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group w-auto dbBookings__edit">
                             <label htmlFor="name">Room #:</label>
-                            <input onChange={handleChange} type="number" value={roomToEdit.name} className="form-control w-auto" id="name" required />
+                            <input onChange={handleChange} type="number" value={roomToEdit.name} className="form-control w-100" id="name" required />
                         </div>
                         <div className="form-group w-auto dbBookings__edit">
                             <label htmlFor="roomType">Room Type</label>
@@ -146,11 +148,11 @@ const DashboardEditRoom = () => {
                                 {guestsOptions.map(option => { return option })}
                             </select>
                         </div>
-                        <button className="btn btn-primary">EDIT</button>
+                        <button className="btn btn-primary mb-3">EDIT</button>
                     </form>
                 </div>
                 <div className="col-12 col-md-4 col-lg-8 text-secondary">
-                    <div className="container">
+                    <div className="table-responsive">
                         <table className="table table-striped table-hover">
                             <thead>
                                 <tr>

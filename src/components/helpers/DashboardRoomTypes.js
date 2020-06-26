@@ -2,10 +2,13 @@ import React from 'react';
 import RoomTypesTable from './tables/RoomTypesTable';
 import { FaPlusCircle, FaExternalLinkAlt} from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { toggleState } from './../../atoms/sidebarState';
+import { useRecoilState } from 'recoil';
 
 const DashboardRoomTypes = () => {
+    const [isToggled, setIsToggled] = useRecoilState(toggleState);
     return (
-        <div className="col bg-white mh-db">
+        <div className={isToggled ? "col bg-white mh-db dashboard-margin--toggle" : "col bg-white mh-db dashboard-margin"}>
             <div className="row justify-content-center align-items-center">
                 <div className="col-12 dbBookings">
                     <h1 className='dbBookings__title'>Room Types</h1>

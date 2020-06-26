@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ProSidebar, SidebarHeader, SidebarFooter, SidebarContent, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import { FaMoon, FaTicketAlt, FaDoorOpen, FaDotCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { Link } from 'react-router-dom';
+import { toggleState, toggleShow, showState } from './../../atoms/sidebarState'
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 const Sidebar = () => {
-    const [isToggled, setIsToggled] = useState(false)
+    const [isToggled, setIsToggled] = useRecoilState(toggleState);
+    const showSidebar = useRecoilValue(showState);
+    const resetShow = useResetRecoilState(toggleShow);
+
 
     const handleToggle = () => {
         setIsToggled(!isToggled)
+    }
+
+    const handleShow = () => {
+        console.log('handleshow')
+        resetShow()
     }
     return (
         <>
         <div className={isToggled ? "sidebarover--toggle" : "sidebarover"}/>
         <div className="sidebar">
-            <ProSidebar collapsed={isToggled} breakPoint={"sm"}>
-                
+            <ProSidebar collapsed={isToggled} breakPoint={"sm"} toggled={showSidebar} onToggle={handleShow}>
                 <SidebarHeader>
                     <Menu iconShape="square" onClick={handleToggle}>
                         <div className="side-icon">

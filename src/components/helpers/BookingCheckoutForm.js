@@ -69,7 +69,6 @@ const BookingCheckoutForm = () => {
 
             let {customer, bookingDate, roomType, guests, total} = booking;
             data = {...data, customer, bookingDate, roomType, guests};
-            console.log(total)
             total = total.replace(/[^\d.]/g, '');
 
             data.total = total

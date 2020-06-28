@@ -1,11 +1,19 @@
 import React, { useRef, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { menuState } from './../atoms/MenuState';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { userState, loginResponseState } from './../atoms/UserState';
+import {editBookingRefreshState} from './../atoms/BookingState';
+import { setToken } from './init';
+import history from '../components/history';
 import gsap from 'gsap';
+
  
 const Menu = () => {
     const menu = useRecoilValue(menuState);
+    const [userDetails, setUserDetails] = useRecoilState(userState);
+    const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
+    const [refresh, setRefresh] = useRecoilState(editBookingRefreshState);
 
     //DOM nodes
     let menuDiv = useRef(null);
@@ -13,11 +21,12 @@ const Menu = () => {
     let revealMenuDivBg = useRef(null);
     let menuHome = useRef(null);
     let menuBook = useRef(null);
+    let menuUser = useRef(null);
 
     useEffect(()=>{
         if ( menu.clicked === false ) {
             //close menu
-            fadeDown(menuHome, menuBook);
+            fadeDown(menuUser, menuHome, menuBook);
             gsap.to([ revealMenuDiv, revealMenuDivBg], {
                 duration: .8,
                 height: 0,
@@ -37,7 +46,7 @@ const Menu = () => {
                 height: '100%'
             });
             staggerReveal(revealMenuDivBg, revealMenuDiv);
-            fadeUp(menuHome, menuBook);
+            fadeUp(menuUser, menuHome, menuBook);
         }
     }, [menu]);
 
@@ -54,8 +63,8 @@ const Menu = () => {
         })
     }
 
-    const fadeUp = (node1, node2) => {
-        gsap.to([node1, node2], {
+    const fadeUp = (node1, node2, node3) => {
+        gsap.to([node1, node2, node3], {
            y: 0,
            duration: 1,
            opacity: 1,
@@ -67,8 +76,8 @@ const Menu = () => {
         })
     }
 
-    const fadeDown = (node1, node2) => {
-        gsap.to([node1, node2], {
+    const fadeDown = (node1, node2, node3) => {
+        gsap.to([node1, node2, node3], {
            y: 60,
            duration: 0.5,
            opacity: 0,
@@ -79,9 +88,37 @@ const Menu = () => {
         })
     }
 
+    const handleLogout = (e) => {
+        e.preventDefault()
+        setToken(null)
+        setUserDetails({
+            _id: null,
+            firstname: null,
+            lastname: null,
+            email: null
+        })
+        setLoginResponse({ ...loginResponse, isLoggedIn: false })
+        setRefresh({refresh:null})
+        history.push('/')
+    }
+
     return(
         <div ref={el  => (menuDiv = el)} className="menu">
             <div ref={el  => (revealMenuDiv = el)} className="menu__contents">
+                {!loginResponse.isLoggedIn ?
+                <div ref={el  => (menuUser = el)} className="menu__contents__user">
+                    <NavLink className="nav-link" to="/login">Login</NavLink>
+                    <NavLink className="nav-link" to="/register">Register</NavLink>
+                </div>
+                :
+                <div ref={el  => (menuUser = el)} className="menu__contents__user">
+                    <p>
+                        Welcome&nbsp;
+                        <NavLink className="nav-link--user" to="/dashboard">{userDetails.firstname +' '+ userDetails.lastname}</NavLink>
+                    </p>
+                    <Link to="#" className="nav-link--logout" onClick={handleLogout}>Logout</Link>
+                </div>
+                }
                 <nav className="menu__contents__nav">
                     <ul className="menu__contents__nav__ul">
                         <li ref={el  => (menuHome = el)} className="nav-item">
@@ -93,7 +130,7 @@ const Menu = () => {
                     </ul>
                 </nav>
             </div>
-            <div ref={el  => (revealMenuDivBg = el)} className="menu_secondary-bg"></div>
+            <div ref={el  => (revealMenuDivBg = el)} className="menu__secondary-bg"></div>
         </div>
     )
 }

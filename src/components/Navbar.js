@@ -8,17 +8,21 @@ import { setToken } from './init';
 import { menuState, disabledState } from './../atoms/MenuState';
 import Menu from './Menu';
 import { AiOutlineMenu} from "react-icons/ai";
-import { showState } from './../atoms/sidebarState'
+import { showState } from './../atoms/sidebarState';
+import {editBookingRefreshState} from './../atoms/BookingState';
 
 
 // eslint-disable-next-line
-const Navbar = ({history}) => {
+const Navbar = ({history, currPath}) => {
     const [menu, setMenu] = useRecoilState(menuState);
     const [isDisabled, setIsDisabled] = useRecoilState(disabledState);
     // eslint-disable-next-line
     const [userDetails, setUserDetails] = useRecoilState(userState);
     const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
-    const [showSidebar, setShowSidebar] = useRecoilState(showState)
+    const [showSidebar, setShowSidebar] = useRecoilState(showState);
+    const [refresh, setRefresh] = useRecoilState(editBookingRefreshState);
+
+    // const SafeLink = (props) => <Link {...props} replace={currPath === props.to} />
 
     //useEffect when changing routes
     useEffect(() => {
@@ -42,6 +46,7 @@ const Navbar = ({history}) => {
             email: null
         })
         setLoginResponse({ ...loginResponse, isLoggedIn: false })
+        setRefresh({refresh:null})
         history.push('/')
     }
 

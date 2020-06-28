@@ -129,7 +129,7 @@ const DashboardEditType = () => {
                         </div>
                         <div class="form-group w-auto dbBookings__edit">
                             <label htmlFor="description">Description</label>
-                            <textarea onChange={handleChange} type="text" className="form-control" rows="5" id="description" >{typeToUpdate.description}</textarea>
+                            <textarea onChange={handleChange} type="text" className="form-control" rows="5" id="description" value={typeToUpdate.description}></textarea>
                         </div>
                         {/* <div className="form-group addType">
                             <label htmlFor="images">Images:</label>

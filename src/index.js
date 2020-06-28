@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {RecoilRoot} from 'recoil';
+import {Router} from 'react-router-dom';
+import history from './components/history';
 
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-        <App />
+        <Router history={history}>
+            <App />
+        </Router>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')

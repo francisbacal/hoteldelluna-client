@@ -24,6 +24,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-tooltip": "^4.2.7",
+    "react-transition-group": "^4.4.1",
     "recoil": "0.0.8",
     "stripe": "^8.63.0"
   },

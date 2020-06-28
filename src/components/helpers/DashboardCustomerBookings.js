@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import BookingsTable from './tables/BookingsTable';
+import CustomerBookingsTable from './tables/CustomerBookingsTable';
 import { FaPlusCircle} from "react-icons/fa";
 import history from './../history';
 import { useRecoilState } from 'recoil';
@@ -7,23 +7,26 @@ import {getRoomTypes} from './../../api/rooms';
 import {roomTypesState} from './../../atoms/BookingState';
 import { toggleState } from './../../atoms/sidebarState';
 
-
-const DashboardBookings = () => {
+const DashboardCustomerBookings = () => {
     const [roomTypes, setRoomTypes] = useRecoilState(roomTypesState);
     const [isToggled, setIsToggled] = useRecoilState(toggleState);
     const [isMounted, setIsMounted] = useState(true)
-    useEffect(()=>{
-        setIsMounted(true)
-        if (isMounted) {
-            setIsToggled(true)
-            let fetchData = async () => {
-                let rmTypes = await getRoomTypes()
-                setRoomTypes(rmTypes)
-            }
 
-            fetchData()
-        }
-    },[])
+    // useEffect(()=>{
+    //     setIsMounted(true)
+    //     if (isMounted) {
+    //         setIsToggled(true)
+    //         let fetchData = async () => {
+
+    //             let rmTypes = await getRoomTypes()
+    //             setRoomTypes(rmTypes)
+    //         }
+
+    //         fetchData()
+    //         setIsMounted(false)
+    //     }
+        
+    // },[])
 
     return (
         <div className={isToggled ? "col bg-white mh-db dashboard-margin--toggle" : "col bg-white mh-db dashboard-margin"}>
@@ -35,11 +38,11 @@ const DashboardBookings = () => {
             </div>
             <div className="row justify-content-center align-items-center">
                 <div className="col-lg-12 text-secondary">
-                    <BookingsTable />
+                    <CustomerBookingsTable />
                 </div>
             </div>
         </div>
     )
 }
 
-export default DashboardBookings
+export default DashboardCustomerBookings

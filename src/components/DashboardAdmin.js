@@ -13,6 +13,7 @@ import DashboardRooms from './helpers/DashboardRooms';
 import DashboardAddRoom from './helpers/DashboardAddRoom';
 import DashboardEditRoom from './helpers/DashboardEditRoom';
 import NotFound from './errorPages/NotFound';
+import TransitionComponent from './TransitionComponent'
 
 const DashboardAdmin = () => {
 
@@ -28,6 +29,7 @@ const DashboardAdmin = () => {
 
     return(
         <div className="container-fluid dashboard">
+            <TransitionComponent />
             <div className="row dashboard__contents">
                 <Router history={history}>
                     <Sidebar />
@@ -35,11 +37,11 @@ const DashboardAdmin = () => {
                         <Route exact path='/dashboard' component={DashboardHome} />
                         <Route exact path='/dashboard/bookings' component={DashboardBookings} />
                         <Route exact path='/dashboard/rooms' component={DashboardRooms} />
-                        <Route exact path='/dashboard/rooms/add' component={DashboardAddRoom} />
+                        <Route path='/dashboard/rooms/add' component={DashboardAddRoom} />
                         <Route exact path='/dashboard/roomtypes' component={DashboardRoomTypes} />
                         <Route path='/dashboard/roomtypes/add' component={DashboardAddType} />
                         <Route path='/dashboard/rooms/:id' component={DashboardEditRoom} />
-                        <Route exact path='/dashboard/bookings/:id' component={DashboardEditBooking} />
+                        <Route path='/dashboard/bookings/:id' component={DashboardEditBooking} />
                         <React.Suspense fallback={fallback()}>
                             <Route path='/dashboard/roomtypes/:id' component={DashboardEditType} />
                         </React.Suspense>

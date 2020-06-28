@@ -6,7 +6,8 @@ const userState = atom({
         _id: null,
         firstname: null,
         lastname: null,
-        email: null
+        email: null,
+        role: null
     }
 })
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import BookingsTableData from './BookingsTableData'
+import BookingsCustomerTableData from './BookingsCustomerTableData'
 
 
 const BookingsTable = () => {
@@ -17,7 +17,7 @@ const BookingsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <BookingsTableData />
+                    <BookingsCustomerTableData />
                 </tbody>
             </table>
         </div>

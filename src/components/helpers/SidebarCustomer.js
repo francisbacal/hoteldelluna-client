@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { toggleState, toggleShow, showState } from './../../atoms/sidebarState'
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-const Sidebar = () => {
+const SidebarCustomer = () => {
     const [isToggled, setIsToggled] = useRecoilState(toggleState);
     const showSidebar = useRecoilValue(showState);
     const resetShow = useResetRecoilState(toggleShow);
@@ -54,23 +54,12 @@ const Sidebar = () => {
                         <MenuItem icon={<FaTicketAlt/>}>Bookings
                             <Link to='/dashboard/bookings' />
                         </MenuItem>
-                        <SubMenu icon={<FaDoorOpen />} title="Rooms">
-                            <MenuItem icon={<FaDotCircle/>}>
-                            <Link to='/dashboard/rooms'>Rooms</Link>
-                            </MenuItem>
-                            <MenuItem icon={<FaDotCircle/>}>
-                            <Link to='/dashboard/roomtypes'>Types</Link>
-                            </MenuItem>
-                        </SubMenu>
                     </Menu>
                 </SidebarContent>
-                <SidebarFooter>
-
-                </SidebarFooter>
             </ProSidebar>
         </div>
         </>
     )
 }
 
-export default Sidebar
+export default SidebarCustomer

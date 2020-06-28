@@ -30,9 +30,9 @@ const RoomsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                <React.Suspense fallback={fallback()}>
-                    <RoomsTableData />
-                </React.Suspense>
+                    <React.Suspense fallback={fallback()}>
+                        <RoomsTableData />
+                    </React.Suspense>
                 </tbody>
             </table>
         </div>

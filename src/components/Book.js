@@ -14,10 +14,11 @@ import {Router, Route, Switch} from 'react-router-dom';
 import NotFound from './errorPages/NotFound'
 import history from './history'
 import BookingLinks from './helpers/BookingLinks';
+import Transition from './TransitionComponent';
 
 
 
-function Book() {
+const Book = () => {
     // eslint-disable-next-line
     const [hasChecked, setHasChecked] = useRecoilState(hasCheckedState);
     const [booking, setBooking] = useRecoilState(bookingState);
@@ -54,8 +55,9 @@ function Book() {
     },[])
 
     return (
-        <div className="container-fluid roomBook" style={{ backgroundImage: "url(" + bookingBg + ")" }}>
-            <div className="row justify-content-center">
+        <div className="container-fluid">
+            <Transition />
+            <div className="row justify-content-center roomBook" style={{ backgroundImage: "url(" + bookingBg + ")" }}>
                 <div className="col-12 my-5">
                     <div className="container text-left bg-white roomBook_container">
                         <div className="row">

@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import {setToken} from './init'
 import { Redirect } from 'react-router-dom';
 import ErrorMessage from './helpers/ErrorMessage';
+import TransitionComponent from "./TransitionComponent";
 
 
 const Login = () => {
@@ -25,19 +26,19 @@ const Login = () => {
         if (user.data) {
             let error = user.data.error
             setLoginResponse({...loginResponse, error: 'Login failed. Check Credentials'})
+            setIsLoading(false)
         } else {
             setUserDetails({
                 _id: user.authenticatedUser._id,
                 firstname: user.authenticatedUser.firstname,
                 lastname: user.authenticatedUser.lastname,
+                role: user.authenticatedUser.role,
                 email: loginDetails.email
             })
             setToken(user.token)
             setLoginResponse({...loginResponse, isLoggedIn: true})
             
         }
-        setIsLoading(false)
-
     }
 
     const handleChange = (e) => {
@@ -50,6 +51,7 @@ const Login = () => {
     
     return(
         <div className="container-fluid login">
+        <TransitionComponent/>
         {loginResponse.success ? <Redirect to='/user/profile' /> : ''}
             <div className="row justify-content-center align-items-center login">
                 <div className="col-12 col-lg-4 p-3 border border-primary rounded">
@@ -64,7 +66,7 @@ const Login = () => {
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-group">
                                         <label className="float-left" htmlFor="email">Email:</label>
-                                        <input onChange={handleChange} type="text" className="form-control" name="email" id="email" />
+                                        <input onChange={handleChange} type="text" className="form-control" name="email" id="email"/>
                                     </div>
                                     <div className="form-group">
                                         <label className="float-left" htmlFor="password">Password:</label>

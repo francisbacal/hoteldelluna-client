@@ -27,7 +27,7 @@ const BookingsTableData = () => {
                         <td>{checkin}</td>
                         <td>{checkout}</td>
                         <td>
-                            <Link to={`/dashboard/bookings/${booking._id}`} className="btn-sm btn btn-info text-secondary"><FaEdit />Edit</Link>
+                            <Link to={`/dashboard/customer-bookings/${booking._id}`} className="btn-sm btn btn-info text-secondary"><FaEdit />Edit</Link>
                         </td>
                     </tr>
                 )

@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import { DateRangePicker } from "react-dates";
 import { Redirect } from "react-router-dom";
 import { useRecoilState } from 'recoil';
-
-import {roomCheckState, hasCheckedState} from './../atoms/RoomCheckState'
-
-
+import {roomCheckState, hasCheckedState} from './../atoms/RoomCheckState';
 import herobanner from "./../assets/images/herobanner.jpg";
 import hdlLogo from "./../assets/images/hdl-logo.png";
 import "./../scss/customDRP.scss";
+import TransitionComponent from "./TransitionComponent";
 
 
-function Home() {
+const Home = (props) => {
     const [bookDate, setBookDate] = useRecoilState(roomCheckState);
     const [hasChecked, setHasChecked] = useRecoilState(hasCheckedState);
     const [focus, setFocus] = useState({focusedInput: null});
+
 
     let guestsOptions = [
         <option value="1" key="1Adult">1 Adult/s</option>,
@@ -35,7 +34,10 @@ function Home() {
     }
 
   return (
+    
     <div className="container-fluid p-0 hero">
+        <TransitionComponent />
+        
         <div className="row flex-column flex-grow-1 justify-content-center align-items-center hero no-gutters" style={{ backgroundImage: "url(" + herobanner + ")" }}>
             {hasChecked ? <Redirect to='/book' /> : ''}
             <div className="hdl-logo" style={{ backgroundImage: "url(" + hdlLogo + ")" }}></div>
@@ -70,9 +72,6 @@ function Home() {
             <button type="button" onClick={()=> setHasChecked(true)} className="btn btn-primary ml-1 mt-2">Check Rooms</button>
             
         </div>
-    <div className="row no-gutters">
-        <div className="col-12"></div>
-    </div>
     </div>
   );
 }

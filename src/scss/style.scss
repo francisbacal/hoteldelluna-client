@@ -69,6 +69,45 @@ body {
 	background-color: $primary;
 }
 
+.transition {
+    display: flex;
+    position: absolute;
+    z-index: 3000;
+    height: 100vh;
+    width: 100%;
+    top:0;
+    left:0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    pointer-events: none;
+
+    li {
+        transform: scaleY(0);
+        background: $xicetic;
+        width: 50%;
+    }
+}
+.transition-secondary {
+    display: flex;
+    position: absolute;
+    z-index: 3000;
+    height: 100vh;
+    width: 100%;
+    top:0;
+    left:0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    list-style: none;
+
+    li {
+        transform: scaleY(0);
+        background: $gold;
+        width: 50%;
+    }
+}
+
 .navbar-brand {
     @include positionCenter;
     display: inline-block;
@@ -227,7 +266,7 @@ body {
     color: $font-primary !important;
     z-index: 1050;
 
-    &_secondary-bg {
+    &__secondary-bg {
         position: absolute;
         top: 0;
         right: 0;
@@ -241,14 +280,43 @@ body {
 
     &__contents {
         position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         background: $xicetic;
         width: 100%;
         height: 100%;
         z-index: 1060;
         overflow: hidden;
 
+        &__user {
+            position: absolute;
+            top: 65px;
+            left: 15px;
+            color: $shadow-blue;
+
+            .nav-link {
+                color: $font-primary;
+                
+                &--user {
+                    color: $font-primary;
+                    display: inline-block;
+                }
+                &--logout {
+                    color: $font-primary;
+                    margin-left: 0px;
+                    display: inline-block;
+                }
+    
+                &:hover {
+                    color: $font-active;
+                }
+            }
+        }
+
         &__nav {
             display: block;
+            width: 100%;
             height: 100%;
 
             &__ul {
@@ -418,6 +486,7 @@ body {
 
 .login {
     min-height: calc(100vh - 80px) !important;
+    margin-top: 80px;
     background-position: top center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -584,6 +653,25 @@ body {
 }
 .transactionContainer {
     min-height: calc(100vh - 80px);
+}
+
+.views-enter {
+    opacity: 1
+}
+
+.views-enter.views-enter-active {
+    opacity: 0;
+    transition: opacity 400ms;
+    // transition-delay: 600ms;
+}
+
+.views-exit {
+    opacity: 1
+}
+
+.views-exit.views-exit-active {
+    opacity: 0;
+    transition: opacity 400ms;
 }
 
 

@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { setToken } from './init'
 import { Redirect } from 'react-router-dom';
 import ErrorMessage from './helpers/ErrorMessage';
+import TransitionComponent from './TransitionComponent'
 
 const Register = () => {
 
@@ -87,6 +88,7 @@ const Register = () => {
 
     return (
         <div className="container-fluid login">
+            <TransitionComponent/>
             {loginResponse.success ? <Redirect to='/user/profile' /> : ''}
             <div className="row justify-content-center align-items-center login">
                 <div className="col-12 col-lg-4 p-3 border border-primary rounded">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-dates';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { typesState, editBookingState, editBookingRefreshState } from './../../atoms/BookingState'
 import moment from 'moment'
 import ErrorMessage from './ErrorMessage';
@@ -9,19 +9,18 @@ import {checkRooms} from './../../api/checkRooms'
 import LoadingSpinner from './LoadingSpinner';
 import { updateBookingAPI } from './../../api/bookings';
 import { refreshRoomState } from './../../atoms/RoomsState';
-
-
+import { userState } from './../../atoms/UserState';
 
 const DashboardEditBookingForm = () => {
-
+    const [error, setError] = useState({
+        hasError: false,
+        message: null
+    });
+    const user = useRecoilValue(userState)
     let [roomTypes, setRoomTypes] = useRecoilState(typesState);
     let [updatedBooking, setUpdatedBooking] = useRecoilState(editBookingState);
     let [bookingRefresh, setBookingRefresh] = useRecoilState(editBookingRefreshState);
-    const [resfreshRoom, setRefreshRoom] = useRecoilState(refreshRoomState)
-    let [error, setError] = useState({
-        hasError: false,
-        message: null
-    })
+    const [resfreshRoom, setRefreshRoom] = useRecoilState(refreshRoomState);
     let [focus, setFocus] = useState({ focusedInput: null });
     let [isLoading, setIsLoading] = useState(false)
     let [isFetching, setIsFetching] = useState(false)
@@ -37,6 +36,20 @@ const DashboardEditBookingForm = () => {
             setIsFetching(false)
         }
     }, [updatedBooking, roomTypes])
+
+    useEffect(() => {
+        const sleep = (ms) => {
+            return new Promise(resolve => setTimeout(resolve, ms))
+        }
+
+        const reload = async () => {
+            await sleep(1200);
+            setIsFetching(false)
+        }
+        setIsFetching(true);
+        reload();
+        
+    },[error])
 
 
     const guestsOptions = [
@@ -88,13 +101,13 @@ const DashboardEditBookingForm = () => {
             start, 
             end, 
             updatedBooking.booking.guests).catch(error=>error.response)
-
         setRoomTypes(rooms)
 
         setBookingRefresh({refresh: true})
         setIsLoading(false)
         
     }
+
     const updateBooking = async () => {
         setIsLoading(true)
         const { 
@@ -118,12 +131,15 @@ const DashboardEditBookingForm = () => {
             total,
             _id
         }
-
-        const booking = await updateBookingAPI(data._id, data)
-        console.log(booking)
+        const booking = await updateBookingAPI(data._id, data).catch(error => error.response)
         setIsLoading(false)
 
-        if (booking != undefined || !booking.error) {
+        if (booking.data != undefined) {
+            setError({
+                hasError: true,
+                message: "Sorry. Something went wrong."
+            })
+        } else if (booking != undefined || !booking.error) {
             setIsSuccess({
                 status: true,
                 message: "Update Success"
@@ -134,7 +150,6 @@ const DashboardEditBookingForm = () => {
                 message: "Sorry. Something went wrong."
             })
         }
-
         // history.push('/dashboard/bookings')
     }
 
@@ -158,8 +173,7 @@ const DashboardEditBookingForm = () => {
 
     return (
         <>
-            {console.log('updatedVooking',updatedBooking)}
-            {(!updatedBooking.booking) ? <LoadingSpinner /> :
+            {(!updatedBooking.booking || isFetching) ? <LoadingSpinner /> :
             <>
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-6">
@@ -216,14 +230,19 @@ const DashboardEditBookingForm = () => {
                                 {roomTypesOptions}
                             </select>
                         </div>
-                        <div className="form-check form-check-inline dbBookings__edit">
-                            <input defaultChecked={updatedBooking.booking.hasEnded} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="hasEnded" name="hasEnded" />
-                            <label className="form-check-label" htmlFor="hasEnded">Booking Ended</label>
-                        </div>
-                        <div className="form-check form-check-inline dbBookings__edit">
-                            <input defaultChecked={updatedBooking.booking.isCancelled} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="isCancelled" name="isCancelled" />
-                            <label className="form-check-label" htmlFor="isCancelled">Booking Cancelled</label>
-                        </div>
+                        {user.role=== 'Admin' ?
+                        <>
+                            <div className="form-check form-check-inline dbBookings__edit">
+                                <input defaultChecked={updatedBooking.booking.hasEnded} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="hasEnded" name="hasEnded" />
+                                <label className="form-check-label" htmlFor="hasEnded">Booking Ended</label>
+                            </div>
+                            <div className="form-check form-check-inline dbBookings__edit">
+                                <input defaultChecked={updatedBooking.booking.isCancelled} onChange={handleCheckChange} className="form-check-input" type="checkbox" id="isCancelled" name="isCancelled" />
+                                <label className="form-check-label" htmlFor="isCancelled">Booking Cancelled</label>
+                            </div>
+                        </>
+                        : '' }
+                        {(updatedBooking.booking.hasEnded && user.role!=='Admin') ? '' :
                         <div className="col my-3">
                             {!isLoading ?
                             <>
@@ -231,12 +250,13 @@ const DashboardEditBookingForm = () => {
                                 <button onClick={updateBooking} type="button" className="btn-sm btn-success">Update</button>
                             </>
                             :
-                                <button class="btn btn-secondary text-warning mt-2" type="button" disabled>
-                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <button className="btn btn-secondary text-warning mt-2" type="button" disabled>
+                                    <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                                     Loading...
                                 </button>
                             }
                         </div>
+                        }
                     </form>
                 </div>
             </div>
